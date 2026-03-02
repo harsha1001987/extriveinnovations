@@ -1,4 +1,6 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request) {
     try {
@@ -12,44 +14,48 @@ export async function POST(request) {
             );
         }
 
-        /* ── Build transporter ── */
-        const transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST || 'smtp.gmail.com',
-            port: Number(process.env.SMTP_PORT) || 587,
-            secure: false,
-            auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
-            },
-        });
-
-        /* ── Compose email ── */
-        const mailOptions = {
-            from: `"Extrive Website" <${process.env.SMTP_USER}>`,
-            to: process.env.CONTACT_EMAIL || process.env.SMTP_USER,
+        /* ── Send via Resend ── */
+        const { data, error } = await resend.emails.send({
+            from: 'Extrive Website <onboarding@resend.dev>',
+            to: [process.env.CONTACT_EMAIL || 'info@extriveinnovations.com'],
             replyTo: email,
             subject: `Demo Request from ${name} — ${company}`,
             html: `
-        <h2>New Demo Request</h2>
-        <table style="border-collapse:collapse;font-family:sans-serif;">
-          <tr><td style="padding:8px 16px;font-weight:bold;">Name</td><td style="padding:8px 16px;">${name}</td></tr>
-          <tr><td style="padding:8px 16px;font-weight:bold;">Company</td><td style="padding:8px 16px;">${company}</td></tr>
-          <tr><td style="padding:8px 16px;font-weight:bold;">Email</td><td style="padding:8px 16px;">${email}</td></tr>
-          <tr><td style="padding:8px 16px;font-weight:bold;">Industry</td><td style="padding:8px 16px;">${industry}</td></tr>
-          <tr><td style="padding:8px 16px;font-weight:bold;">Message</td><td style="padding:8px 16px;">${message || '—'}</td></tr>
-        </table>
-      `,
-        };
+                <h2 style="font-family:sans-serif;color:#1a1a1a;">New Demo Request</h2>
+                <table style="border-collapse:collapse;font-family:sans-serif;width:100%;max-width:500px;">
+                    <tr style="border-bottom:1px solid #eee;">
+                        <td style="padding:12px 16px;font-weight:bold;color:#555;">Name</td>
+                        <td style="padding:12px 16px;color:#1a1a1a;">${name}</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #eee;">
+                        <td style="padding:12px 16px;font-weight:bold;color:#555;">Company</td>
+                        <td style="padding:12px 16px;color:#1a1a1a;">${company}</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #eee;">
+                        <td style="padding:12px 16px;font-weight:bold;color:#555;">Email</td>
+                        <td style="padding:12px 16px;color:#1a1a1a;">${email}</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #eee;">
+                        <td style="padding:12px 16px;font-weight:bold;color:#555;">Industry</td>
+                        <td style="padding:12px 16px;color:#1a1a1a;">${industry}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:12px 16px;font-weight:bold;color:#555;">Message</td>
+                        <td style="padding:12px 16px;color:#1a1a1a;">${message || '—'}</td>
+                    </tr>
+                </table>
+            `,
+        });
 
-        /* ── Send ── */
-        if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-            await transporter.sendMail(mailOptions);
-        } else {
-            // Dev mode — log to console when SMTP is not configured
-            console.log('📧 Demo request (SMTP not configured):', { name, company, email, industry, message });
+        if (error) {
+            console.error('Resend error:', error);
+            return Response.json(
+                { error: 'Failed to send request. Please try again later.' },
+                { status: 500 }
+            );
         }
 
-        return Response.json({ success: true });
+        return Response.json({ success: true, id: data.id });
     } catch (err) {
         console.error('Email send error:', err);
         return Response.json(
