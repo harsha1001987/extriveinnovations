@@ -7,6 +7,7 @@ import { ArrowRight, ChevronRight } from "lucide-react";
 import RequestDemoSection from "../components/RequestDemoSection";
 import GetInTouch from "../components/Contact"; // Assuming this is saved in Contact.js
 import Navbar from "../components/Navbar";
+import BackExModel from "../components/BackExModel";
 
 export default function ExosuitProductPage() {
     return (
@@ -80,17 +81,10 @@ export default function ExosuitProductPage() {
                     <div className="lg:col-span-5 relative group">
                         {/* ORANGE GRADIENT COMING FROM TOP LEFT REMOVED HERE */}
 
-                        <div className="relative overflow-hidden aspect-[2/4] bg-[#111] border border-white/5">
-                            <img
-                                src="/textures/BackEX.png"
-                                alt="Worker wearing the BackEX exosuit"
-                                className="w-full h-full object-cover object-center grayscale-[20%] contrast-125 
-                  transition-transform duration-[2s] ease-out group-hover:scale-105"
-                            />
-                        </div>
+                        <BackExModel />
 
                         <div className="absolute inset-0 border border-white/10 z-20 pointer-events-none" />
-                        
+
                         {/* TWO ORANGE LINES AT TOP LEFT REMOVED HERE */}
                     </div>
 
