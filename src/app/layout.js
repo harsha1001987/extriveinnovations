@@ -1,10 +1,11 @@
 import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
+import ThemeProvider from "./components/ThemeProvider";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const inter = Inter({
@@ -61,7 +62,7 @@ const organizationJsonLd = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}
       >
@@ -71,7 +72,9 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify(organizationJsonLd),
           }}
         />
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

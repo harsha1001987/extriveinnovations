@@ -122,12 +122,12 @@ export default function AboutSection() {
             svg: (
                 <svg viewBox="0 0 200 320" fill="none" className="phase-svg">
                     {/* Body silhouette */}
-                    <ellipse cx="100" cy="42" rx="22" ry="26" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
-                    <line x1="100" y1="68" x2="100" y2="180" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
-                    <line x1="100" y1="90" x2="55" y2="145" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
-                    <line x1="100" y1="90" x2="145" y2="145" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
-                    <line x1="100" y1="180" x2="65" y2="290" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
-                    <line x1="100" y1="180" x2="135" y2="290" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
+                    <ellipse cx="100" cy="42" rx="22" ry="26" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
+                    <line x1="100" y1="68" x2="100" y2="180" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
+                    <line x1="100" y1="90" x2="55" y2="145" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
+                    <line x1="100" y1="90" x2="145" y2="145" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
+                    <line x1="100" y1="180" x2="65" y2="290" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
+                    <line x1="100" y1="180" x2="135" y2="290" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
                     
                     {/* Interactive Strain Zones */}
                     <InteractiveNode cx="100" cy="90" r="12" baseFill="rgba(255,59,59,0.5)" opacity={0.5} className="strain-pulse" data={NODE_DATA.cervical} />
@@ -144,12 +144,12 @@ export default function AboutSection() {
             text: "Extrive delivers structural support through wearable robotics.",
             svg: (
                 <svg viewBox="0 0 200 320" fill="none" className="phase-svg">
-                    <ellipse cx="100" cy="42" rx="22" ry="26" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
-                    <line x1="100" y1="68" x2="100" y2="180" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
-                    <line x1="100" y1="90" x2="55" y2="145" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
-                    <line x1="100" y1="90" x2="145" y2="145" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
-                    <line x1="100" y1="180" x2="65" y2="290" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
-                    <line x1="100" y1="180" x2="135" y2="290" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" />
+                    <ellipse cx="100" cy="42" rx="22" ry="26" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
+                    <line x1="100" y1="68" x2="100" y2="180" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
+                    <line x1="100" y1="90" x2="55" y2="145" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
+                    <line x1="100" y1="90" x2="145" y2="145" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
+                    <line x1="100" y1="180" x2="65" y2="290" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
+                    <line x1="100" y1="180" x2="135" y2="290" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
                     
                     <path d="M78 75 Q100 65 122 75 L130 140 Q100 150 70 140 Z" stroke="#e86a00" strokeWidth="1.2" fill="none" className="suit-draw" />
                     <path d="M70 140 L60 175 Q100 185 140 175 L130 140" stroke="#e86a00" strokeWidth="1.2" fill="none" className="suit-draw delay-1" />
@@ -169,12 +169,12 @@ export default function AboutSection() {
             text: "Assistive hardware meets ergonomics intelligence.",
             svg: (
                 <svg viewBox="0 0 200 320" fill="none" className="phase-svg">
-                    <ellipse cx="100" cy="42" rx="22" ry="26" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" />
-                    <line x1="100" y1="68" x2="100" y2="180" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" />
-                    <line x1="100" y1="90" x2="55" y2="145" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" />
-                    <line x1="100" y1="90" x2="145" y2="145" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" />
-                    <line x1="100" y1="180" x2="65" y2="290" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" />
-                    <line x1="100" y1="180" x2="135" y2="290" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" />
+                    <ellipse cx="100" cy="42" rx="22" ry="26" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
+                    <line x1="100" y1="68" x2="100" y2="180" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
+                    <line x1="100" y1="90" x2="55" y2="145" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
+                    <line x1="100" y1="90" x2="145" y2="145" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
+                    <line x1="100" y1="180" x2="65" y2="290" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
+                    <line x1="100" y1="180" x2="135" y2="290" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
                     
                     <path d="M78 75 Q100 65 122 75 L130 140 Q100 150 70 140 Z" stroke="#4da6ff" strokeWidth="1" fill="none" opacity="0.4" />
                     <path d="M70 140 L60 175 Q100 185 140 175 L130 140" stroke="#4da6ff" strokeWidth="1" fill="none" opacity="0.4" />
@@ -268,12 +268,12 @@ export default function AboutSection() {
                                 right: '10%',
                                 width: '220px',
                                 padding: '16px',
-                                background: 'rgba(10, 10, 12, 0.85)',
+                                background: 'var(--navbar-bg)',
                                 backdropFilter: 'blur(8px)',
                                 border: `1px solid ${phase.color}`,
                                 borderRadius: '4px',
                                 boxShadow: `0 0 20px ${phase.color}30, inset 0 0 10px ${phase.color}10`,
-                                color: '#fff',
+                                color: 'var(--text-primary)',
                                 zIndex: 10,
                                 textAlign: 'left',
                                 animation: 'fadeIn 0.2s ease-out'

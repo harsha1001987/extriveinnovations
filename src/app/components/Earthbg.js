@@ -154,8 +154,8 @@ void main() {
   float dist = length(gl_PointCoord - 0.5);
   float disc = 1.0 - smoothstep(0.35, 0.5, dist);
   if (disc < 0.01) discard;
-  vec3 col = vec3(0.92, 0.95, 1.0);
-  gl_FragColor = vec4(col, vAlpha * disc * 0.8);
+  vec3 col = vec3(0.93, 0.96, 1.0);
+  gl_FragColor = vec4(col, vAlpha * disc * 1.1);
 }`;
 
 // ═══════════════════════════════════════════════════════════════════
@@ -233,7 +233,7 @@ function ParticleEarth({ cursorRef }) {
   }), []);
 
   // Ocean uses smaller points
-  const VERT_OCEAN = VERT.replace("18.0 / -mv.z", "12.0 / -mv.z");
+  const VERT_OCEAN = VERT.replace("21.0 / -mv.z", "14.5 / -mv.z");
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
@@ -372,13 +372,13 @@ function Scene() {
 
 export default function EarthBackground() {
   return (
-    <div className="fixed inset-0 bg-[#0b0f14] z-0">
+    <div className="fixed inset-0 z-0 earth-bg-wrapper">
       <Canvas
         dpr={[1, 1.5]}
         camera={{ position: [0, 0, 5.0], fov: 45 }}
         gl={{ antialias: true, powerPreference: "high-performance", alpha: false }}
       >
-        <fog attach="fog" args={["#0b0f14", 5, 12]} />
+        <fog attach="fog" args={["#0d0f14", 5, 12]} />
         <ambientLight intensity={0.08} />
 
         {/* ── Cinematic top spotlight ── */}

@@ -1,34 +1,29 @@
 "use client";
+
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 const products = [
     {
+        index: "01",
         title: "BackEX",
-        description: "Reduces lower-back strain up to 46% while improving lifting comfort and productivity. Ultra-light passive exosuit — no batteries, no motors.",
-        status: "LIVE",
-        statusColor: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20",
-        delay: "delay-0",
+        stage: "STAGE 1 — DEPLOYED · TRL 7",
+        description: "A 0.7 kg passive elastic back-support exosuit. Elastic bands run parallel to the erector spinae — storing energy on forward bend, releasing on return. No batteries. No motors. No charging. Demonstrated 20–46% reduction in back muscle strain, validated with an FDA-approved EMG device. Currently deployed with L&T Construction and Indian Army.",
+        linkUrl: "/ProductsPage",
     },
     {
+        index: "02",
         title: "ShoulderEX",
-        description: "Up to 35% reduction in shoulder fatigue during overhead work. Lightweight passive support built for long-duration elevation tasks.",
-        status: "Q4 2026",
-        statusColor: "text-orange-400 bg-orange-400/10 border-orange-400/20",
-        delay: "delay-100",
+        stage: "STAGE 2 — PRODUCTION READY · OCT 2026",
+        description: "A pneumatic overhead task exosuit for the highest-strain environments — automotive assembly, aerospace MRO, and construction overhead work. Reduces shoulder and trapezius load during sustained overhead operations. The highest per-unit value product in our portfolio with the clearest ROI case for automotive OEMs.",
+        linkUrl: "/contact", // As requested, single product page is BackEX. Keeping ShoulderEX link to contact for inquiries.
     },
     {
-        title: "ForceX",
-        description: "A powered exoskeleton engineered to amplify strength and endurance while reducing physical stress in demanding environments.",
-        status: "PROTOTYPE",
-        statusColor: "text-blue-400 bg-blue-400/10 border-blue-400/20",
-        delay: "delay-200",
-    },
-    {
+        index: "03",
         title: "ErgoEX",
-        description: "AI ergonomics platform that tracks strain patterns, identifies pain points, and delivers actionable workplace insights.",
-        status: "BETA",
-        statusColor: "text-purple-400 bg-purple-400/10 border-purple-400/20",
-        delay: "delay-300",
+        stage: "STAGE 3 — IN DEVELOPMENT · AI INTELLIGENCE LAYER",
+        description: "A wearable multi-IMU and surface EMG sensor device. Monitors real-time musculoskeletal strain, predicts fatigue-driven injury risk using an adaptive AI algorithm, and generates actionable ergonomic intelligence. The intelligence layer that transforms BackEX and ShoulderEX into a connected health platform — feeding a proprietary insurance data API unique in India.",
+        linkUrl: "/contact",
     },
 ];
 
@@ -36,26 +31,65 @@ export default function ProductsSection() {
     return (
         <section
             id="products"
-            className="relative bg-black text-white py-32 px-6 overflow-hidden"
+            style={{
+                background: "transparent",
+                padding: "40px 24px 120px",
+            }}
         >
-            {/* Ambient glow - Kept exactly as you had it */}
-            <div className="absolute top-0 left-0 w-full h-64 pointer-events-none
-        bg-[radial-gradient(circle_at_50%_-20%,rgba(255,120,0,0.25),transparent_70%)]" />
+            <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+                
+                {/* ═══════════════ INTRO ═══════════════ */}
+                <div style={{ marginBottom: "64px" }}>
+                    <div
+                        style={{
+                            fontFamily: "var(--font-heading)",
+                            fontSize: "10px",
+                            fontWeight: 500,
+                            letterSpacing: "0.2em",
+                            color: "var(--text-muted)",
+                            textTransform: "uppercase",
+                            marginBottom: "24px",
+                        }}
+                    >
+                        Products
+                    </div>
 
-            <div className="relative max-w-7xl mx-auto">
-                <div className="text-center mb-20">
-                    <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-                        Our{" "}
-                        <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">
-                            Products
-                        </span>
+                    <h2
+                        style={{
+                            fontFamily: "var(--font-heading)",
+                            fontWeight: 700,
+                            fontSize: "clamp(2rem, 4vw, 3rem)",
+                            color: "var(--text-primary)",
+                            lineHeight: 1.1,
+                            letterSpacing: "-0.01em",
+                            maxWidth: "700px",
+                            marginBottom: "24px",
+                        }}
+                    >
+                        A product stack for industrial augmentation.
                     </h2>
+
+                    <p
+                        style={{
+                            fontFamily: "var(--font-heading)",
+                            fontWeight: 400,
+                            fontSize: "16px",
+                            lineHeight: 1.7,
+                            color: "var(--text-secondary)",
+                            maxWidth: "600px",
+                        }}
+                    >
+                        Extrive is building across deployed exosuits, next-generation assistive systems, and the intelligence layer that connects them — creating a portfolio designed for real industrial environments, not isolated demos.
+                    </p>
                 </div>
 
-                {/* Switched to a CSS Grid for structured cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {products.map((product, index) => (
-                        <ProductCard key={index} {...product} />
+                {/* ═══════════════ PRODUCT ROWS ═══════════════ */}
+                <div style={{ borderTop: "1px solid var(--border)" }}>
+                    {products.map((product, i) => (
+                        <ProductRow
+                            key={product.title}
+                            {...product}
+                        />
                     ))}
                 </div>
             </div>
@@ -63,59 +97,141 @@ export default function ProductsSection() {
     );
 }
 
-function ProductCard({ title, description, status, statusColor, delay }) {
+function ProductRow({ index, title, stage, description, linkUrl }) {
     return (
-        <Link href="/ProductsPage" className={`group relative flex flex-col justify-between p-8 rounded-2xl 
-      bg-white/[0.02] border border-white/10 backdrop-blur-sm overflow-hidden 
-      transition-all duration-500 hover:-translate-y-2 hover:bg-white/[0.04] 
-      hover:border-orange-500/50 hover:shadow-[0_0_30px_-5px_rgba(255,120,0,0.3)]
-      ${delay}`}
+        <div
+            style={{
+                position: "relative",
+                padding: "64px 0",
+                borderBottom: "1px solid var(--border)",
+                overflow: "hidden",
+            }}
         >
-            {/* Top Accent Line */}
-            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-orange-500 to-transparent 
-        opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            {/* Faint oversized index */}
+            <span
+                aria-hidden="true"
+                style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    fontFamily: "var(--font-heading)",
+                    fontSize: "clamp(8rem, 16vw, 12rem)",
+                    fontWeight: 700,
+                    color: "var(--text-primary)",
+                    opacity: 0.02,
+                    lineHeight: 1,
+                    pointerEvents: "none",
+                    userSelect: "none",
+                }}
+            >
+                {index}
+            </span>
 
-            {/* Sweeping Scanner Effect (Micro-interaction) */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-orange-500/5 to-transparent 
-        -translate-y-[150%] group-hover:translate-y-[150%] transition-transform duration-[1.5s] ease-in-out pointer-events-none" />
+            <div 
+                style={{ 
+                    position: "relative", 
+                    zIndex: 10,
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "flex-end",
+                    gap: "40px",
+                    flexWrap: "wrap",
+                }}
+            >
+                <div style={{ flex: "1 1 min(100%, 600px)", maxWidth: "650px" }}>
+                    {/* Stage badge */}
+                    <div
+                        style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            padding: "6px 14px",
+                            border: "1px solid rgba(232,106,0,0.3)",
+                            background: "rgba(232,106,0,0.05)",
+                            borderRadius: "2px",
+                            marginBottom: "20px",
+                        }}
+                    >
+                        <div style={{ width: "4px", height: "4px", background: "var(--accent)", borderRadius: "50%", marginRight: "8px" }} />
+                        <span
+                            style={{
+                                fontFamily: "var(--font-heading)",
+                                fontSize: "10px",
+                                fontWeight: 600,
+                                letterSpacing: "0.14em",
+                                color: "var(--text-primary)",
+                                textTransform: "uppercase",
+                            }}
+                        >
+                            {stage}
+                        </span>
+                    </div>
 
-            <div className="relative z-10">
-                {/* Header: Title and Status Badge */}
-                <div className="flex justify-between items-start mb-6">
-                    <h3 className="text-2xl font-bold tracking-wide text-white group-hover:text-orange-400 transition-colors duration-300">
+                    {/* Product name */}
+                    <h3
+                        style={{
+                            fontFamily: "var(--font-heading)",
+                            fontWeight: 700,
+                            fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
+                            color: "var(--text-primary)",
+                            lineHeight: 1.1,
+                            letterSpacing: "-0.01em",
+                            marginBottom: "16px",
+                        }}
+                    >
                         {title}
                     </h3>
-                    <span className={`text-[10px] font-bold tracking-widest uppercase py-1 px-3 rounded-full border ${statusColor} 
-            group-hover:animate-pulse`}>
-                        {status}
-                    </span>
+
+                    {/* Description */}
+                    <p
+                        style={{
+                            fontFamily: "var(--font-heading)",
+                            fontWeight: 400,
+                            fontSize: "15px",
+                            lineHeight: 1.75,
+                            color: "var(--text-secondary)",
+                        }}
+                    >
+                        {description}
+                    </p>
                 </div>
 
-                {/* Tech-inspired separator */}
-                <div className="flex items-center gap-2 mb-6">
-                    <div className="h-[2px] w-8 bg-orange-500/40 group-hover:w-16 group-hover:bg-orange-500 transition-all duration-500" />
-                    <div className="h-[4px] w-[4px] rounded-full bg-orange-500/40 group-hover:bg-orange-500 transition-colors duration-500" />
+                {/* Explore More CTA */}
+                <div style={{ flexShrink: 0 }}>
+                    <Link
+                        href={linkUrl}
+                        className="group"
+                        style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            padding: "12px 24px",
+                            border: "1px solid var(--border)",
+                            background: "var(--surface)",
+                            color: "var(--text-primary)",
+                            fontFamily: "var(--font-heading)",
+                            fontSize: "12px",
+                            fontWeight: 600,
+                            letterSpacing: "0.1em",
+                            textTransform: "uppercase",
+                            textDecoration: "none",
+                            transition: "all 0.2s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.borderColor = "var(--accent)";
+                            e.currentTarget.style.color = "var(--accent)";
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.borderColor = "var(--border)";
+                            e.currentTarget.style.color = "var(--text-primary)";
+                        }}
+                    >
+                        Explore More
+                        <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+                    </Link>
                 </div>
-
-                <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
-                    {description}
-                </p>
             </div>
-
-            {/* Action Button that appears on hover */}
-            <div className="relative z-10 mt-8 pt-6 border-t border-white/5 flex items-center justify-between overflow-hidden">
-                <span className="text-sm font-semibold text-orange-500 opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                    Explore Specs
-                </span>
-                <svg
-                    className="w-5 h-5 text-orange-500 transform -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-            </div>
-        </Link>
+        </div>
     );
 }
