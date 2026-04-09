@@ -6,7 +6,7 @@ const metrics = [
         badge: "Live · Expanding",
         badgeType: "green",
         prefix: "",
-        value: "200",
+        value: "245",
         unit: "units",
         body: "First official PO placed. Quarterly scale-up to additional plants in pipeline. India's largest EPC contractor — 50,000+ workers."
     },

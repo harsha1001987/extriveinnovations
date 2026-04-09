@@ -1917,4 +1917,249 @@ body {
   }
 }
 
+/* ═══════════════════════════════════════════════════════
+   Custom Cursor (desktop / fine pointer only)
+   ═══════════════════════════════════════════════════════ */
+
+.custom-cursor {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+.custom-cursor.is-visible {
+  opacity: 1;
+}
+
+.custom-cursor-dot,
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.custom-cursor-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e86a00;
+  transition: width 200ms ease, height 200ms ease, background 200ms ease,
+    opacity 200ms ease;
+}
+
+.custom-cursor-ring {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(232, 106, 0, 0.7);
+  transition: width 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    height 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 240ms ease,
+    border-width 240ms ease,
+    box-shadow 240ms ease,
+    opacity 240ms ease;
+}
+
+/* Light mode contrast tweak */
+[data-theme="light"] .custom-cursor-ring {
+  border-color: rgba(192, 88, 0, 0.85);
+}
+[data-theme="light"] .custom-cursor-dot {
+  background: #c05800;
+}
+
+/* Hide the native cursor only on devices that actually have a fine pointer */
+@media (hover: hover) and (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor body,
+  html.has-custom-cursor a,
+  html.has-custom-cursor button {
+    cursor: none;
+  }
+  /* Always restore native cursor on form/media controls */
+  html.has-custom-cursor input,
+  html.has-custom-cursor textarea,
+  html.has-custom-cursor select,
+  html.has-custom-cursor video,
+  html.has-custom-cursor [contenteditable="true"] {
+    cursor: auto;
+  }
+}
+
+/* ── State: link / button — ring tightens subtly ── */
+.custom-cursor.is-link .custom-cursor-ring {
+  width: 22px;
+  height: 22px;
+  border-color: rgba(232, 106, 0, 0.95);
+}
+
+/* ── State: form / media controls — get out of the way ── */
+.custom-cursor.is-hidden .custom-cursor-dot,
+.custom-cursor.is-hidden .custom-cursor-ring {
+  opacity: 0;
+}
+
+/* ── State: products row — sharper, more structured ── */
+.custom-cursor.is-product .custom-cursor-ring {
+  width: 24px;
+  height: 24px;
+  border-radius: 2px;
+  border-color: rgba(232, 106, 0, 0.9);
+}
+
+/* ── State: founder cards — faint secondary outline ── */
+.custom-cursor.is-founder .custom-cursor-ring {
+  width: 30px;
+  height: 30px;
+  box-shadow: 0 0 0 1px rgba(232, 106, 0, 0.18);
+}
+
+/* ── State: media / video — subtly expanded media focus ── */
+.custom-cursor.is-media .custom-cursor-ring {
+  width: 44px;
+  height: 44px;
+  border-color: rgba(232, 106, 0, 0.55);
+}
+
+/* ── State: silhouette body node — locks tight ── */
+.custom-cursor.is-node .custom-cursor-ring {
+  width: 16px;
+  height: 16px;
+  border-width: 1.5px;
+  border-color: #e86a00;
+}
+.custom-cursor.is-node .custom-cursor-dot {
+  width: 4px;
+  height: 4px;
+}
+
+/* Press feedback */
+.custom-cursor.is-down .custom-cursor-ring {
+  width: 18px;
+  height: 18px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Metric / signal card live edge
+   ═══════════════════════════════════════════════════════ */
+
+.traction-card {
+  position: relative;
+}
+.traction-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .traction-card:hover::before {
+    transform: scaleY(1);
+  }
+}
+
+/* Problem card — same live left-edge as traction cards */
+.problem-card {
+  position: relative;
+}
+.problem-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .problem-card:hover::before {
+    transform: scaleY(1);
+  }
+}
+
+/* Product row — top rule sharpens to orange on hover */
+.product-row {
+  position: relative;
+}
+.product-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .product-row:hover::before {
+    transform: scaleX(1);
+  }
+}
+
+/* Founder card — restrained left rule */
+.founder-card {
+  position: relative;
+}
+.founder-card::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .founder-card:hover::before {
+    transform: scaleY(1);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   Silhouette node — tap target & active state (touch-friendly)
+   ═══════════════════════════════════════════════════════ */
+
+.hover-node {
+  /* enlarge tap target without enlarging visual */
+  pointer-events: all;
+}
+@media (hover: none) {
+  .hover-node {
+    /* On touch, give nodes a noticeable but restrained active treatment */
+    transition: opacity 200ms ease, transform 200ms ease;
+  }
+}
+
+/* Cleaner HUD label fade */
+@keyframes hudFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.diagnostic-hud {
+  animation: hudFadeIn 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* Light mode nav/cta now handled via CSS vars — no explicit overrides needed */

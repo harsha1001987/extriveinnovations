@@ -1,6 +1,7 @@
 "use client";
 
 import EarthBackground from "./components/Earthbg";
+import ProblemSection from "./components/ProblemSection";
 import AboutSection from "./components/AboutSection";
 import ProductsSection from "./components/ProductsSection";
 import ManipurPilotSection from "./components/ManipurPilotSection";
@@ -18,7 +19,7 @@ const PARTNERS = [
   "AIC Mahindra",
   "DST NIDHI",
   "Startup India",
-  "Wadhwani Foundation",
+  
 ];
 
 /* ═══════════════════════════════════════════════════════════
@@ -46,7 +47,7 @@ function LandingPage() {
             <div className="relative text-center max-w-4xl px-5 md:px-6">
 
               {/* Dark backsplash behind text */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] 
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%]
                 bg-[radial-gradient(ellipse_at_center,rgba(13,15,20,0.7)_0%,transparent_65%)] pointer-events-none -z-10" />
 
               {/* ── Badge ── */}
@@ -96,7 +97,7 @@ function LandingPage() {
                     margin: "0 auto",
                   }}
                 >
-                  Building the Future of
+                  Empowering Motion
                 </h2>
                 <h2
                   className="drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]"
@@ -112,7 +113,7 @@ function LandingPage() {
                     marginTop: "4px",
                   }}
                 >
-                  Industrial Human Augmentation
+                  Enhancing Lives.
                 </h2>
               </div>
 
@@ -124,9 +125,10 @@ function LandingPage() {
                   fontWeight: 400,
                   fontSize: "clamp(0.88rem, 1.3vw, 1.05rem)",
                   lineHeight: 1.75,
-                  color: "rgba(255, 255, 255, 0.55)",
+                  color: "rgba(255, 255, 255, 0.85)",
                   maxWidth: "520px",
                   marginTop: "28px",
+                  textShadow: "0 2px 14px rgba(0,0,0,0.85)",
                 }}
               >
                 Wearable robotics and ergonomics intelligence systems that reduce
@@ -159,28 +161,51 @@ function LandingPage() {
               {/* ── Partner Validation Strip ── */}
               <div
                 className="hero-fade-in-buttons pointer-events-auto"
-                style={{ marginTop: "26px" }}
+                style={{ marginTop: "34px" }}
               >
-                {/* Label */}
+                {/* Label lockup — short hairlines flank the text for structural anchoring */}
                 <div
-                  style={{
-                    fontFamily: "var(--font-heading)",
-                    fontSize: "11px",
-                    fontWeight: 500,
-                    letterSpacing: "0.2em",
-                    color: "rgba(255,255,255,0.5)",
-                    textTransform: "uppercase",
-                    textAlign: "center",
-                  }}
+                  className="flex items-center justify-center"
+                  style={{ gap: "12px" }}
                 >
-                  Backed &amp; Validated By
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      display: "inline-block",
+                      width: "18px",
+                      height: "1px",
+                      background: "rgba(255,255,255,0.22)",
+                    }}
+                  />
+                  <div
+                    style={{
+                      fontFamily: "var(--font-heading)",
+                      fontSize: "11px",
+                      fontWeight: 600,
+                      letterSpacing: "0.24em",
+                      color: "rgba(255,255,255,0.62)",
+                      textTransform: "uppercase",
+                      textAlign: "center",
+                    }}
+                  >
+                    Backed &amp; Validated By
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      display: "inline-block",
+                      width: "18px",
+                      height: "1px",
+                      background: "rgba(255,255,255,0.22)",
+                    }}
+                  />
                 </div>
 
                 {/* Partner Names */}
                 <div
                   className="flex flex-wrap items-center justify-center"
                   style={{
-                    marginTop: "10px",
+                    marginTop: "14px",
                     gap: "0",
                   }}
                 >
@@ -189,9 +214,10 @@ function LandingPage() {
                       <span
                         style={{
                           fontFamily: "var(--font-heading)",
-                          fontSize: "13.5px",
-                          fontWeight: 400,
-                          color: "rgba(255,255,255,0.7)",
+                          fontSize: "14px",
+                          fontWeight: 450,
+                          color: "rgba(255,255,255,0.82)",
+                          letterSpacing: "0.015em",
                           whiteSpace: "nowrap",
                         }}
                       >
@@ -199,15 +225,17 @@ function LandingPage() {
                       </span>
                       {i < PARTNERS.length - 1 && (
                         <span
+                          aria-hidden="true"
                           style={{
-                            margin: "0 12px",
-                            color: "rgba(232,106,0,0.6)",
-                            fontSize: "14px",
-                            userSelect: "none",
+                            display: "inline-block",
+                            width: "5px",
+                            height: "5px",
+                            margin: "0 18px",
+                            borderRadius: "50%",
+                            border: "1px solid rgba(232,106,0,0.65)",
+                            background: "transparent",
                           }}
-                        >
-                          ·
-                        </span>
+                        />
                       )}
                     </span>
                   ))}
@@ -228,7 +256,10 @@ function LandingPage() {
         ═══════════════════════════════════════════════════════ 
       */}
       <div style={{ position: "relative", zIndex: 20, background: "var(--background)" }}>
-      
+
+        {/* ═══════════════ SECTION 1.5 — THE PROBLEM ═══════════════ */}
+        <ProblemSection />
+
         {/* ═══════════════ SECTION 2 — ABOUT ═══════════════ */}
         <AboutSection />
 

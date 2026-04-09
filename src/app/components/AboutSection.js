@@ -96,22 +96,39 @@ export default function AboutSection() {
     }, [sectionVisible, hoveredNode]);
 
     // Helper component for interactive nodes to keep SVG code clean
-    const InteractiveNode = ({ cx, cy, r, baseFill, opacity, className, data }) => (
-        <circle
-            cx={cx} cy={cy} r={r}
-            fill={baseFill}
-            opacity={hoveredNode?.title === data.title ? 1 : opacity}
-            className={`${className} hover-node`}
-            onMouseEnter={() => setHoveredNode(data)}
-            onMouseLeave={() => setHoveredNode(null)}
-            style={{
-                cursor: 'crosshair',
-                transition: 'all 0.3s ease',
-                transformOrigin: `${cx}px ${cy}px`,
-                transform: hoveredNode?.title === data.title ? 'scale(1.5)' : 'scale(1)'
-            }}
-        />
-    );
+    const InteractiveNode = ({ cx, cy, r, baseFill, opacity, className, data }) => {
+        const isActive = hoveredNode?.title === data.title;
+        return (
+            <g>
+                <circle
+                    data-cursor="node"
+                    cx={cx} cy={cy} r={r}
+                    fill={baseFill}
+                    opacity={isActive ? 1 : opacity}
+                    className={`${className} hover-node`}
+                    onMouseEnter={() => setHoveredNode({ ...data, cx, cy })}
+                    onMouseLeave={() => setHoveredNode(null)}
+                    onClick={() => setHoveredNode((prev) => prev?.title === data.title ? null : { ...data, cx, cy })}
+                    style={{
+                        transition: 'opacity 0.25s ease',
+                    }}
+                />
+                {/* Lock ring — appears only when active. Restrained, no glow. */}
+                {isActive && (
+                    <circle
+                        cx={cx}
+                        cy={cy}
+                        r={r + 6}
+                        fill="none"
+                        stroke="#e86a00"
+                        strokeWidth="0.8"
+                        opacity="0.9"
+                        style={{ pointerEvents: 'none' }}
+                    />
+                )}
+            </g>
+        );
+    };
 
     // Move PHASES inside component to access state/functions
     const PHASES = [
@@ -256,48 +273,103 @@ export default function AboutSection() {
 
                     {/* SVG + text */}
                     <div className="phase-visual" style={{ position: 'relative' }}>
-                        <div className="phase-svg-wrap" key={activePhase}>
+                        <div className="phase-svg-wrap" key={activePhase} style={{ position: 'relative' }}>
                             {phase.svg}
+
+                            {/* Directional cue from active node toward HUD anchor */}
+                            {hoveredNode && hoveredNode.cx != null && (
+                                <svg
+                                    viewBox="0 0 200 320"
+                                    preserveAspectRatio="xMidYMid meet"
+                                    style={{
+                                        position: 'absolute',
+                                        inset: 0,
+                                        width: '100%',
+                                        height: '100%',
+                                        pointerEvents: 'none',
+                                    }}
+                                >
+                                    <line
+                                        x1={hoveredNode.cx}
+                                        y1={hoveredNode.cy}
+                                        x2={195}
+                                        y2={40}
+                                        stroke="#e86a00"
+                                        strokeWidth="0.6"
+                                        strokeDasharray="2 3"
+                                        opacity="0.7"
+                                    />
+                                    <circle cx={195} cy={40} r="1.5" fill="#e86a00" opacity="0.9" />
+                                </svg>
+                            )}
                         </div>
                         
-                        {/* ─── Sci-Fi Telemetry HUD (Displays on Hover) ─── */}
+                        {/* ─── Diagnostic HUD (refined, restrained) ─── */}
                         {hoveredNode && (
-                            <div style={{
-                                position: 'absolute',
-                                top: '10%',
-                                right: '10%',
-                                width: '220px',
-                                padding: '16px',
-                                background: 'var(--navbar-bg)',
-                                backdropFilter: 'blur(8px)',
-                                border: `1px solid ${phase.color}`,
-                                borderRadius: '4px',
-                                boxShadow: `0 0 20px ${phase.color}30, inset 0 0 10px ${phase.color}10`,
-                                color: 'var(--text-primary)',
-                                zIndex: 10,
-                                textAlign: 'left',
-                                animation: 'fadeIn 0.2s ease-out'
-                            }}>
-                                <div style={{ fontSize: '0.65rem', color: phase.color, letterSpacing: '2px', marginBottom: '8px', fontFamily: 'monospace' }}>
-                                    STRAIN DETECTED //
+                            <div
+                                className="diagnostic-hud"
+                                style={{
+                                    position: 'absolute',
+                                    top: '8%',
+                                    right: '6%',
+                                    width: '230px',
+                                    padding: '14px 16px',
+                                    background: 'var(--navbar-bg)',
+                                    backdropFilter: 'blur(8px)',
+                                    border: '1px solid var(--border)',
+                                    borderLeft: `1px solid ${phase.color}`,
+                                    borderRadius: '2px',
+                                    color: 'var(--text-primary)',
+                                    zIndex: 10,
+                                    textAlign: 'left',
+                                }}
+                            >
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    fontSize: '0.6rem',
+                                    color: phase.color,
+                                    letterSpacing: '0.18em',
+                                    marginBottom: '10px',
+                                    fontFamily: 'monospace',
+                                    textTransform: 'uppercase',
+                                }}>
+                                    <span style={{ width: '10px', height: '1px', background: phase.color }} />
+                                    NODE · DIAGNOSTIC
                                 </div>
-                                <h4 style={{ margin: '0 0 6px 0', fontSize: '1rem', fontWeight: '600', textTransform: 'uppercase' }}>
+                                <h4 style={{
+                                    margin: '0 0 6px 0',
+                                    fontSize: '0.85rem',
+                                    fontWeight: 600,
+                                    letterSpacing: '0.02em',
+                                    textTransform: 'uppercase',
+                                    color: 'var(--text-primary)',
+                                }}>
                                     {hoveredNode.title}
                                 </h4>
-                                <p style={{ margin: '0 0 16px 0', fontSize: '0.8rem', color: '#a0a0a5', lineHeight: '1.4' }}>
+                                <p style={{
+                                    margin: '0 0 14px 0',
+                                    fontSize: '0.75rem',
+                                    color: 'var(--text-secondary)',
+                                    lineHeight: 1.5,
+                                }}>
                                     {hoveredNode.desc}
                                 </p>
                                 <div style={{
-                                    display: 'inline-block',
-                                    padding: '6px 10px',
-                                    background: `${phase.color}15`,
-                                    border: `1px solid ${phase.color}50`,
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '6px',
+                                    padding: '5px 10px',
+                                    border: `1px solid ${phase.color}`,
                                     color: phase.color,
-                                    fontSize: '0.75rem',
-                                    fontWeight: 'bold',
-                                    letterSpacing: '1px'
+                                    fontSize: '0.65rem',
+                                    fontWeight: 600,
+                                    letterSpacing: '0.14em',
+                                    fontFamily: 'var(--font-heading)',
+                                    textTransform: 'uppercase',
                                 }}>
-                                    DEPLOY: {hoveredNode.suit}
+                                    Deploy · {hoveredNode.suit}
                                 </div>
                             </div>
                         )}

@@ -112,7 +112,8 @@ export default function ManipurPilotSection() {
                 </div>
 
                 {/* Video Container */}
-                <div 
+                <div
+                    data-cursor="media"
                     style={{
                         position: "relative",
                         width: "100%",

@@ -22,7 +22,7 @@ const products = [
         index: "03",
         title: "ErgoEX",
         stage: "STAGE 3 — IN DEVELOPMENT · AI INTELLIGENCE LAYER",
-        description: "A wearable multi-IMU and surface EMG sensor device. Monitors real-time musculoskeletal strain, predicts fatigue-driven injury risk using an adaptive AI algorithm, and generates actionable ergonomic intelligence. The intelligence layer that transforms BackEX and ShoulderEX into a connected health platform — feeding a proprietary insurance data API unique in India.",
+        description: "ErgoEX is a wearable, multi-IMU–based intelligence system that continuously monitors body posture, movement, and load dynamics in real time. It analyzes musculoskeletal strain patterns and predicts fatigue-driven injury risk using adaptive algorithms, delivering actionable ergonomic insights to improve worker safety, productivity, and long-term health.",
         linkUrl: "/contact",
     },
 ];
@@ -100,6 +100,8 @@ export default function ProductsSection() {
 function ProductRow({ index, title, stage, description, linkUrl }) {
     return (
         <div
+            data-cursor="product"
+            className="product-row"
             style={{
                 position: "relative",
                 padding: "64px 0",

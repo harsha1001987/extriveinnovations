@@ -62,6 +62,8 @@ export default function TeamSection() {
                     
                     {/* Founder 1 */}
                     <div
+                        data-cursor="founder"
+                        className="founder-card"
                         style={{
                             position: "relative",
                             background: "var(--surface)",
@@ -134,6 +136,8 @@ export default function TeamSection() {
 
                     {/* Founder 2 */}
                     <div
+                        data-cursor="founder"
+                        className="founder-card"
                         style={{
                             position: "relative",
                             background: "var(--surface)",
