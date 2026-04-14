@@ -27,7 +27,7 @@ export default function Navbar() {
                             color: "var(--text-primary)",
                         }}
                     >
-                        E<span style={{ color: "var(--accent)" }}>x</span>trive Innovations
+                        <span style={{ color: "var(--accent)" }}>Extrive</span> Innovations
                     </h1>
                 </Link>
 

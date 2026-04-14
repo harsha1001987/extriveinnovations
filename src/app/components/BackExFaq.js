@@ -63,7 +63,7 @@ export default function BackExFaq() {
                         }}
                     >
                         <div style={{ width: "30px", height: "1px", background: "var(--border)" }} />
-                        FAQ
+                        <span style={{ color: "var(--accent)" }}>FAQ</span>
                         <div style={{ width: "30px", height: "1px", background: "var(--border)" }} />
                     </div>
 

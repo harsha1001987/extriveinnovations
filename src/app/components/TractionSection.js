@@ -6,9 +6,9 @@ const metrics = [
         badge: "Live · Expanding",
         badgeType: "green",
         prefix: "",
-        value: "245",
-        unit: "units",
-        body: "First official PO placed. Quarterly scale-up to additional plants in pipeline. India's largest EPC contractor — 50,000+ workers."
+        value: "Commercial",
+        unit: "Rollout",
+        body: "Exosuits deployed with L&T pan-India, with the first official PO secured and scale-up to additional plants underway."
     },
     {
         company: "MARUTI SUZUKI",
@@ -32,10 +32,10 @@ const metrics = [
         company: "INDIAN ARMY",
         badge: "Pilot Complete",
         badgeType: "green",
-        prefix: "₹",
-        value: "49",
-        unit: "K",
-        body: "Defence proof-of-concept completed at Manipur. ForceX (military exosuit) pipeline open. HAL and DRDO relationships established."
+        prefix: "",
+        value: "Field",
+        unit: "Validation",
+        body: "BackeX has been validated in demanding field conditions, improving endurance and reducing physical strain during critical tasks, while helping build relationships with key defence stakeholders."
     },
     {
         company: "AIC MAHINDRA",
@@ -51,9 +51,11 @@ const metrics = [
         badge: "WIN CoE Applied",
         badgeType: "orange",
         prefix: "₹",
-        value: "1",
-        unit: "Cr",
-        body: "Applied to WIN CoE grant for ErgoEX clinical validation. Research partnership with IIT-H Biomedical Engineering faculty."
+        value: "35",
+        unit: "L",
+        body: "Supported by iTIC, IIT Hyderabad, Extrive Innovations secured ₹35 lakhs in government-backed funding.This includes ₹10 lakhs under NIDHI Prayas (DST) and ₹25 lakhs under Seed Support (SISF) to accelerate product development and validation."
+
+
     }
 ];
 

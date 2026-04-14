@@ -203,7 +203,11 @@ export default function TeamSection() {
                                     color: "var(--text-secondary)",
                                 }}
                             >
-                                B.Tech Computer Science, Mahindra University. Full-time product engineering. Owns ErgoScan AI, ErgoEX firmware, cloud dashboard, and all software architecture. Built ErgoScan&apos;s RULA/REBA AI and the ErgoEX real-time data pipeline from scratch. Technical foundation for the data moat.
+                               I’ve always been driven to build things that matter. Real-world problems are everywhere—in routines, systems, and overlooked spaces—and I’m constantly asking how they can be improved.
+
+Extrive Innovations was born from that mindset: to create technology not for novelty, but for real impact. What drives me most is solving the right problems—the ones that improve lives consistently and at scale.
+
+Still building. Still learning. Always working toward a better tomorrow.
                             </p>
                         </div>
                     </div>

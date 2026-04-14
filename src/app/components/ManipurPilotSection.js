@@ -28,7 +28,7 @@ export default function ManipurPilotSection() {
                                 marginBottom: "24px",
                             }}
                         >
-                            Manipur Pilot · 2024
+                            Pilot
                         </div>
 
                         <h2
@@ -55,7 +55,7 @@ export default function ManipurPilotSection() {
                                 maxWidth: "480px",
                             }}
                         >
-                            Our Manipur pilot captured BackEX in real operational conditions — high-altitude terrain, working alongside soldiers and logistics personnel. Watch the technology work where it matters most.
+                            BackEX proved itself in demanding operational conditions, navigating tough terrain alongside soldiers and logistics personnel. Watch the technology deliver where it matters most.
                         </p>
                     </div>
 
@@ -72,10 +72,10 @@ export default function ManipurPilotSection() {
                         {/* Metric 1 */}
                         <div style={{ padding: "32px", borderRight: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
                             <div style={{ fontFamily: "var(--font-heading)", fontSize: "2rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "8px" }}>
-                                ₹49K
+                                <span style={{ color: "var(--accent)" }}>Validated</span>
                             </div>
                             <div style={{ fontFamily: "var(--font-heading)", fontSize: "11px", color: "var(--text-muted)", letterSpacing: "0.02em" }}>
-                                Indian Army paid pilot value
+                                Successful field testing in demanding operational conditions
                             </div>
                         </div>
 
@@ -117,7 +117,8 @@ export default function ManipurPilotSection() {
                     style={{
                         position: "relative",
                         width: "100%",
-                        paddingTop: "42.25%", // Cinematic aspect ratio roughly 21:9
+                        
+                        paddingTop: "55%", // Cinematic aspect ratio roughly 21:9
                         background: "#050505",
                         border: "1px solid var(--border)",
                         borderRadius: "2px",
