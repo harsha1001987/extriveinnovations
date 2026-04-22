@@ -295,7 +295,7 @@ function LandingPage() {
               fontFamily: "var(--font-heading)",
             }}
           >
-            © {new Date().getFullYear()} E<span style={{ color: "var(--accent)" }}>x</span>trive Innovations. All rights reserved.
+            © {new Date().getFullYear()} <span style={{ color: "var(--accent)" }}>Extrive</span> Innovations. All rights reserved.
           </p>
         </footer>
       </div>

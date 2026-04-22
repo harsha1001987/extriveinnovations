@@ -7,7 +7,7 @@ const products = [
     {
         index: "01",
         title: "BackEX",
-        stage: "STAGE 1 — DEPLOYED · TRL 7",
+        stage: "STAGE 1 — DEPLOYED ",
         description: "A 0.7 kg passive elastic back-support exosuit. Elastic bands run parallel to the erector spinae — storing energy on forward bend, releasing on return. No batteries. No motors. No charging. Demonstrated 20–46% reduction in back muscle strain, validated with an FDA-approved EMG device. Currently deployed with L&T Construction and Indian Army.",
         linkUrl: "/ProductsPage",
     },

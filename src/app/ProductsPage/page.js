@@ -106,7 +106,7 @@ export default function BackExPage() {
             {/* Footer */}
             <footer style={{ borderTop: "1px solid var(--border)", padding: "40px 24px", textAlign: "center" }}>
                 <p style={{ color: "var(--text-muted)", fontSize: "13px", letterSpacing: "0.05em" }}>
-                    © {new Date().getFullYear()} Extrive Innovations. All rights reserved.
+                    © {new Date().getFullYear()} <span style={{ color: "var(--accent)" }}>Extrive</span> Innovations. All rights reserved.
                 </p>
             </footer>
 

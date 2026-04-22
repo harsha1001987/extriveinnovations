@@ -74,7 +74,7 @@ export default function GetInTouch() {
           <p>
             Survey No: 62, 1A, Jeedimetla, Bahadurpally, Hyderabad, Telangana 500043
           </p>
-          <p>© {new Date().getFullYear()} Extrive Innovations. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} <span className="text-orange-500">Extrive</span> Innovations. All rights reserved.</p>
         </div>
 
       </div>

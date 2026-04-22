@@ -95,7 +95,7 @@ export default function ManipurPilotSection() {
                                 10K<span style={{ color: "var(--accent)" }}>+</span>
                             </div>
                             <div style={{ fontFamily: "var(--font-heading)", fontSize: "11px", color: "var(--text-muted)", letterSpacing: "0.02em" }}>
-                                Altitude ft — operational conditions
+                                Engineered to thrive in any environment
                             </div>
                         </div>
 

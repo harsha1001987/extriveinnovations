@@ -42,9 +42,9 @@ const metrics = [
         badge: "Incubated",
         badgeType: "green",
         prefix: "",
-        value: "8",
-        unit: "plants",
-        body: "Incubated at AIC Mahindra University. Warm introduction across 8 Mahindra Group manufacturing facilities in India."
+        value: "",
+        unit: "Mahindra Group access",
+        body: "Incubated at AIC Mahindra University. Warm introduction across Mahindra Group manufacturing facilities in India."
     },
     {
         company: "IIT HYDERABAD",

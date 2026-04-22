@@ -2163,3 +2163,40 @@ body {
 }
 
 /* Light mode nav/cta now handled via CSS vars — no explicit overrides needed */
+
+/* ═══════════════════════════════════════════════════════
+   Contact Page — Responsive
+   ═══════════════════════════════════════════════════════ */
+
+.contact-container {
+  padding: 0 48px !important;
+}
+
+@media (max-width: 900px) {
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+
+  .contact-container {
+    padding: 0 24px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .contact-container {
+    padding: 0 16px !important;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Contact form input focus glow */
+.contact-container input:focus,
+.contact-container select:focus,
+.contact-container textarea:focus {
+  border-color: rgba(232, 106, 0, 0.5) !important;
+  box-shadow: 0 0 0 2px rgba(232, 106, 0, 0.06);
+}

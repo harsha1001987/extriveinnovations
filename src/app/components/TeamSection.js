@@ -129,7 +129,11 @@ export default function TeamSection() {
                                     color: "var(--text-secondary)",
                                 }}
                             >
-                                B.Tech Electronics &amp; Communication, Mahindra University. Full-time enterprise sales and hardware product strategy. Owns all external relationships — Maruti Suzuki, L&amp;T, Boeing India, Mahindra Group, Indian Army. Built and shipped BackEX from first principles. Led every pilot, investor conversation, and grant application.
+                               I don’t separate technology from business. A great solution means nothing if it doesn’t reach people, and a business without a real solution won’t last.
+
+I work at that intersection—understanding the problem, building the tech, and making it work in the real world, at scale.
+
+That’s how Extrive started: from a real problem, a refusal to accept the status quo, and the belief that the right technology can make a difference. From construction sites to factories to the Indian Army—I’m just getting started.
                             </p>
                         </div>
                     </div>
