@@ -19,7 +19,7 @@ function Model() {
 
 export default function BackExModel() {
     return (
-        <div className="relative overflow-hidden aspect-[2/4] bg-[#111] border border-white/5 w-full h-full">
+        <div className="relative overflow-hidden aspect-[2/4] w-full h-full border border-white/10 bg-gradient-to-b from-[#F2F2F2] to-[#E6E6E6]">
             <Canvas
                 camera={{ position: [0, 0, 3.5], fov: 42 }}
                 dpr={[1, 1.5]}
