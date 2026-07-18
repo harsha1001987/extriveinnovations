@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useMotionValue } from "framer-motion";
 import Navbar from "../components/Navbar";
 import { Calculator } from "lucide-react";
 
@@ -54,6 +55,8 @@ const RIGHT_FIELDS = [
 export default function ROICalculatorPage() {
   const [values, setValues] = useState(DEFAULTS);
   const [results, setResults] = useState(null);
+  // Constant progress keeps the redesigned Navbar in its full-bar state.
+  const navProgress = useMotionValue(0);
 
   const update = (key, raw) => {
     setValues((prev) => ({ ...prev, [key]: parseFloat(raw) || 0 }));
@@ -126,7 +129,7 @@ export default function ROICalculatorPage() {
 
   return (
     <div style={{ background: "var(--background)", minHeight: "100vh" }}>
-      <Navbar />
+      <Navbar progress={navProgress} />
 
       <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "120px 24px 80px" }}>
         {/* Header */}

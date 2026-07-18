@@ -1,18 +1,37 @@
-import { Space_Grotesk, Inter } from "next/font/google";
+import { Archivo_Black, Archivo, Space_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "./components/ThemeProvider";
 import CustomCursor from "./components/CustomCursor";
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-heading",
+// Body copy / descriptions.
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-body",
+// Display face — all headlines, uppercase. Kinetic-brutalist system.
+const archivoBlack = Archivo_Black({
+  variable: "--font-archivo",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400"],
+  display: "swap",
+});
+
+// Mono — labels, metadata, index numbers, nav, tags.
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
+// Lighter display companion (variable weights) — used where Archivo Black
+// reads too heavy, e.g. the Hero headline.
+const archivo = Archivo({
+  variable: "--font-archivo-flex",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 /* ── Site-wide metadata ──────────────────────────────── */
@@ -70,7 +89,7 @@ export const metadata = {
 
 /* ── Viewport (theme color for browser UI) ─────────────── */
 export const viewport = {
-  themeColor: "#000000",
+  themeColor: "#09090B",
 };
 
 /* ── Organization JSON-LD (injected once, site-wide) ── */
@@ -86,7 +105,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}
+        className={`${archivoBlack.variable} ${archivo.variable} ${spaceMono.variable} ${inter.variable} antialiased`}
       >
         <script
           type="application/ld+json"
@@ -96,6 +115,8 @@ export default function RootLayout({ children }) {
         />
         <ThemeProvider>
           <CustomCursor />
+          {/* Site-wide poster grain — barely-there print texture. */}
+          <div className="site-grain" aria-hidden="true" />
           {children}
         </ThemeProvider>
       </body>

@@ -1,54 +1,82 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0d0f14;
-  --foreground: #ededed;
-  --gold: #E3C49B;
-  --muted: #dcdcdc;
-  --accent: #e86a00;
-  --font-heading: "Space Grotesk", sans-serif;
-  --font-body: "Inter", sans-serif;
+  /* ══ KINETIC-BRUTALIST CORE PALETTE (Part 0.1) ══
+     Dark/graphite throughout, one accent (electric orange). Never pure
+     black/white — always the off-tones below. */
+  --bg-void: #09090B;         /* rich black */
+  --bg-surface: #18181B;      /* card / panel surface */
+  --bg-muted: #27272A;        /* secondary surface, background numerals */
+  --text-primary: #FAFAFA;    /* off-white */
+  --text-secondary: #A1A1AA;  /* zinc-400, all secondary/body text */
+  --accent: #FF4D00;          /* electric orange — the one accent */
+  --accent-foreground: #000000; /* black text on orange fills */
+  --border: #3F3F46;          /* zinc-700, structural lines */
+  --destructive: #EF4444;     /* reserved — warning/error only */
 
-  /* Surface / card tokens */
-  --surface: rgba(255, 255, 255, 0.03);
-  --surface-hover: rgba(255, 255, 255, 0.05);
-  --border: rgba(255, 255, 255, 0.15);
-  --border-hover: rgba(255, 255, 255, 0.25);
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.75);
-  --text-muted: rgba(255, 255, 255, 0.45);
-  --navbar-bg: rgba(13, 15, 20, 0.6);
-  --badge-bg: rgba(232, 106, 0, 0.08);
-  --badge-text: #e86a00;
-  --input-bg: rgba(255, 255, 255, 0.04);
-  --input-border: rgba(255, 255, 255, 0.12);
-  --silhouette-stroke: rgba(255, 255, 255, 0.45);
+  /* ── Fonts (Part 0.2) ── */
+  --font-display: var(--font-archivo), "Archivo Black", sans-serif;
+  --font-mono: var(--font-space-mono), "Space Mono", ui-monospace, monospace;
+  --font-body: var(--font-inter), "Inter", sans-serif;
+  --font-heading: var(--font-display); /* legacy alias */
+
+  /* ── Legacy aliases → new palette, so pre-redesign pages (contact, ROI,
+        old product page) keep rendering coherently in the one dark theme ── */
+  --background: var(--bg-void);
+  --foreground: var(--text-primary);
+  --surface: var(--bg-surface);
+  --surface-hover: #232327;
+  --border-hover: #52525B;
+  --text-muted: #71717A;
+  --accent-orange: var(--accent);
+  --accent-orange-soft: #FF6A33;
+  --bg-graphite: var(--bg-surface);
+  --bg-steel: var(--bg-muted);
+  --hairline: var(--border);
+  --gold: var(--accent);
+  --muted: var(--text-secondary);
+  --navbar-bg: rgba(9, 9, 11, 0.72);
+  --badge-bg: rgba(255, 77, 0, 0.1);
+  --badge-text: var(--accent);
+  --input-bg: rgba(255, 255, 255, 0.02);
+  --input-border: var(--border);
+  --silhouette-stroke: rgba(250, 250, 250, 0.5);
+  --text-primary-spec: var(--text-primary);
+  --text-secondary-spec: var(--text-secondary);
+  /* Old light "datasheet" tokens now resolve dark (one-theme mandate). */
+  --bg-light: var(--bg-void);
+  --surface-light: var(--bg-surface);
+  --text-primary-light: var(--text-primary);
+  --text-secondary-light: var(--text-secondary);
+  --border-light: var(--border);
 }
 
 /* ═══════════════════════════════════════════════════════
    Light Mode Tokens
    ═══════════════════════════════════════════════════════ */
 
+/* Dark throughout the entire site (Part 0 / Part 11): the light theme is
+   intentionally neutralised to the dark palette so an old stored toggle
+   preference can never lighten the redesigned system. */
 [data-theme="light"] {
-  --background: #f4f1ec;
-  --foreground: #0f0d0b;
-  --gold: #8a6d3b;
-  --muted: #3d3d3d;
-
-  --surface: rgba(15, 13, 11, 0.08);
-  --surface-hover: rgba(15, 13, 11, 0.12);
-  --border: rgba(15, 13, 11, 0.2);
-  --border-hover: rgba(15, 13, 11, 0.35);
-  --text-primary: #0f0d0b;
-  --text-secondary: rgba(15, 13, 11, 0.85); /* Darkened for legibility */
-  --text-muted: rgba(15, 13, 11, 0.65); /* Darkened for legibility */
-  --accent: #c05800; /* High-contrast orange for light mode */
-  --navbar-bg: rgba(244, 241, 236, 0.92);
-  --badge-bg: rgba(232, 106, 0, 0.1);
-  --badge-text: #c05800;
-  --input-bg: rgba(15, 13, 11, 0.05);
-  --input-border: rgba(15, 13, 11, 0.2);
-  --silhouette-stroke: rgba(15, 13, 11, 0.7);
+  --background: var(--bg-void);
+  --foreground: var(--text-primary);
+  --gold: var(--accent);
+  --muted: var(--text-secondary);
+  --surface: var(--bg-surface);
+  --surface-hover: #232327;
+  --border: var(--border);
+  --border-hover: #52525B;
+  --text-primary: #FAFAFA;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  --accent: #FF4D00;
+  --navbar-bg: rgba(9, 9, 11, 0.72);
+  --badge-bg: rgba(255, 77, 0, 0.1);
+  --badge-text: #FF4D00;
+  --input-bg: rgba(255, 255, 255, 0.02);
+  --input-border: var(--border);
+  --silhouette-stroke: rgba(250, 250, 250, 0.5);
 }
 
 /* Global Select Options Styling */
@@ -58,17 +86,290 @@ select option {
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg-void);
+  --color-foreground: var(--text-primary);
+  --color-void: var(--bg-void);
+  --color-graphite: var(--bg-surface);
+  --color-surface: var(--bg-surface);
+  --color-muted-bg: var(--bg-muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-orange-soft);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-ink: var(--text-primary);
+  --color-muted: var(--text-secondary);
+  --color-border: var(--border);
+  --color-hairline: var(--border);
   --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg-void);
+  color: var(--text-primary);
   font-family: var(--font-body);
   margin: 0;
-  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   KINETIC-BRUTALIST SYSTEM — shared primitives (Part 0 / Part 1)
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Site-wide poster grain (Part 0.5). */
+.site-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+}
+
+/* Continuous marquee (Part 1.4 / 1.6). Track holds 2 identical halves;
+   translating -50% yields a seamless loop. */
+@keyframes bxMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes bxMarqueeRev {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+/* Rotating scroll indicator (Part 1.5). */
+@keyframes bxSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Focus-visible ring — accent, never removed (Part 10). */
+.bx-focus:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bx-marquee-track { animation: none !important; }
+  .bx-spin { animation: none !important; }
+}
+
+/* ── 1.1 IgniteText ── */
+.bx-ignite {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-primary);
+  transition: color 180ms ease-in-out, -webkit-text-stroke-color 180ms ease-in-out;
+  cursor: pointer;
+  display: inline-block;
+}
+.bx-ignite:hover,
+.bx-ignite.lit,
+.bx-ignite:focus-visible {
+  color: var(--accent);
+  -webkit-text-stroke-color: var(--accent);
+  outline: none;
+}
+/* Already-orange variant: pulse instead of fill (Part 4.1). */
+.bx-ignite.pulse {
+  color: var(--accent);
+  -webkit-text-stroke: 0;
+}
+.bx-ignite.pulse:hover,
+.bx-ignite.pulse.lit {
+  animation: bxPulse 600ms ease-in-out;
+}
+@keyframes bxPulse {
+  0%, 100% { filter: brightness(1); transform: scale(1); }
+  50% { filter: brightness(1.45); transform: scale(1.04); }
+}
+
+/* ── 1.2 HardFlipCard ── */
+.bx-flip {
+  position: relative;
+  background: var(--bg-void);
+  border: 2px solid var(--border);
+  color: var(--text-primary);
+  transition: background 160ms ease-in-out, border-color 160ms ease-in-out, color 160ms ease-in-out;
+}
+@media (hover: hover) and (pointer: fine) {
+  .bx-flip:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-foreground); }
+  .bx-flip:hover .bx-massive { color: rgba(0,0,0,0.16); }
+  .bx-flip:hover .bx-tag { border-color: rgba(0,0,0,0.5); color: var(--accent-foreground); background: transparent; }
+  .bx-flip:hover .bx-flip-icon { border-color: rgba(0,0,0,0.5); color: var(--accent-foreground); }
+}
+.bx-flip:focus-within { background: var(--accent); border-color: var(--accent); color: var(--accent-foreground); }
+.bx-flip:focus-within .bx-massive { color: rgba(0,0,0,0.16); }
+.bx-flip:focus-within .bx-flip-icon { border-color: rgba(0,0,0,0.5); color: var(--accent-foreground); }
+.bx-flip-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 52px; height: 52px; border: 2px solid var(--border); color: var(--accent);
+  transition: border-color 160ms ease-in-out, color 160ms ease-in-out;
+}
+/* Seamless variant for hairline-grid layouts — the container's border-tone
+   background shows through the grid gap to draw shared hairlines. */
+.bx-flip--seamless { border: none; }
+.bx-grid-hair { display: grid; gap: 2px; background: var(--border); }
+
+/* ── 1.3 MassiveNumber ── */
+.bx-massive {
+  font-family: var(--font-display);
+  color: var(--bg-muted);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  user-select: none;
+  pointer-events: none;
+  transition: color 160ms ease-in-out;
+}
+
+/* ── 1.4 / 1.6 Marquee ── */
+.bx-marquee { overflow: hidden; width: 100%; display: flex; }
+.bx-marquee-track {
+  display: inline-flex; flex-shrink: 0; min-width: 100%;
+  white-space: nowrap; align-items: center;
+  animation: bxMarquee var(--bx-dur, 30s) linear infinite;
+  will-change: transform;
+}
+.bx-marquee-track.rev { animation-name: bxMarqueeRev; }
+
+/* ── 1.5 RotatingScrollIndicator ── */
+.bx-spin { animation: bxSpin 12s linear infinite; transform-origin: center; }
+
+/* ── 1.6 SkewedMarquee ── */
+.bx-skew { width: 100%; background: var(--bg-void); transform: skewY(-2deg); overflow: hidden; border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); }
+.bx-skew-row { transform: skewY(2deg); }
+
+/* ── 1.7 BrutalistServiceRow ── */
+.bx-srow {
+  position: relative; display: flex; align-items: center;
+  gap: clamp(14px, 2.5vw, 36px);
+  padding: clamp(22px, 3.2vw, 40px) clamp(14px, 3vw, 32px);
+  border-bottom: 1px solid rgba(250,250,250,0.12);
+  text-decoration: none; color: var(--text-primary);
+  transition: background 180ms ease-in-out;
+}
+.bx-srow:hover { background: rgba(250,250,250,0.05); }
+.bx-srow-index { font-family: var(--font-mono); color: var(--accent); font-size: clamp(0.8rem, 1.4vw, 1.05rem); flex-shrink: 0; letter-spacing: 0.02em; }
+.bx-srow-main { min-width: 0; flex: 1; }
+.bx-srow-title {
+  font-family: var(--font-display); text-transform: uppercase;
+  font-size: clamp(1.5rem, 5vw, 3rem); line-height: 0.9; letter-spacing: -0.03em;
+  color: var(--text-primary); transition: transform 220ms ease-in-out; display: inline-block;
+}
+.bx-srow:hover .bx-srow-title { transform: translateX(16px); }
+.bx-srow-arrow {
+  margin-left: auto; color: var(--accent); flex-shrink: 0;
+  opacity: 0; transform: rotate(0deg);
+  transition: opacity 180ms ease-in-out, transform 220ms ease-in-out;
+}
+.bx-srow:hover .bx-srow-arrow,
+.bx-srow:focus-visible .bx-srow-arrow { opacity: 1; transform: rotate(45deg); }
+.bx-srow-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; flex-shrink: 0; opacity: 0.9;
+}
+/* Transparent-PNG logos → flatten to a white mark. */
+.bx-srow-icon--white { filter: brightness(0) invert(1); }
+/* Opaque white-background logos → invert the field to black and drop it
+   with screen blend, leaving a clean white monochrome mark. */
+.bx-srow-icon--invert { filter: grayscale(1) invert(1) contrast(1.05); mix-blend-mode: screen; }
+.bx-srow-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; }
+.bx-srow-stat { font-family: var(--font-mono); font-weight: 700; color: var(--accent); font-size: 0.95rem; letter-spacing: 0.02em; }
+
+/* 1.10 Sticky scroll cards */
+.bx-sticky { position: sticky; top: 8rem; }
+
+/* Screen-reader-only (accessible duplicate of marquee data, Part 10) */
+.bx-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+/* ── 1.8 Buttons ── */
+.bx-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--font-display); text-transform: uppercase; letter-spacing: -0.01em;
+  height: 56px; padding: 0 40px; border: 2px solid transparent; cursor: pointer;
+  text-decoration: none; font-size: 0.95rem; transition: transform 160ms ease-in-out, background 160ms ease-in-out, color 160ms ease-in-out, border-color 160ms ease-in-out;
+  background: transparent;
+}
+.bx-btn--sm { height: 40px; padding: 0 22px; font-size: 0.8rem; }
+.bx-btn--lg { height: 80px; padding: 0 60px; font-size: 1.25rem; }
+.bx-btn--primary { background: var(--accent); color: var(--accent-foreground); border-color: var(--accent); }
+.bx-btn--primary:hover { transform: scale(1.05); }
+.bx-btn--primary:active { transform: scale(0.95); }
+.bx-btn--outline { border-color: var(--border); color: var(--text-primary); }
+.bx-btn--outline:hover { background: var(--text-primary); color: var(--accent-foreground); border-color: var(--text-primary); }
+.bx-btn--ghost { color: var(--text-primary); }
+.bx-btn--ghost:hover { color: var(--accent); }
+.bx-btn--pill { border-radius: 9999px; }
+
+/* ── 1.9 Inputs ── */
+.bx-input {
+  width: 100%; height: 96px; background: transparent; border: none;
+  border-bottom: 2px solid var(--border); color: var(--text-primary);
+  font-family: var(--font-display); text-transform: uppercase; font-size: clamp(1.4rem, 3vw, 2.25rem);
+  letter-spacing: -0.02em; padding: 0 4px; outline: none; box-sizing: border-box;
+  transition: border-color 180ms ease-in-out;
+}
+.bx-input::placeholder { color: var(--bg-muted); }
+.bx-input:focus { border-bottom-color: var(--accent); }
+
+/* ── Pills / tags ── */
+.bx-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--font-mono); text-transform: uppercase;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em;
+  padding: 5px 12px; border: 1px solid var(--border); color: var(--text-secondary);
+  border-radius: 9999px; white-space: nowrap;
+}
+.bx-tag-dot { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; }
+.bx-tag--live { color: var(--accent); border-color: var(--accent); }
+
+/* Small orange square bullet (marquee separators, Part 3). */
+.bx-sq { display: inline-block; width: 7px; height: 7px; background: var(--accent); flex-shrink: 0; }
+
+/* Marquee inner layout */
+.bx-marquee-seg { display: inline-flex; align-items: center; flex-shrink: 0; }
+.bx-marquee-item { display: inline-flex; align-items: center; gap: 14px; padding: 0 22px; }
+
+/* Overhead status marquee (Part 3) */
+.bx-ticker { background: var(--bg-surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.bx-ticker .bx-marquee-item {
+  font-family: var(--font-mono); text-transform: uppercase;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; color: var(--text-primary);
+  padding: 11px 20px; gap: 16px;
+}
+.bx-ticker .bx-hl { color: var(--accent); }
+
+/* Skewed stats marquee text (Part 8.1) */
+.bx-skew-top .bx-marquee-item {
+  font-family: var(--font-display); text-transform: uppercase; font-size: 10vw;
+  color: var(--accent); letter-spacing: -0.03em; padding: 0 0.3em; gap: 0.3em;
+}
+.bx-skew-bottom .bx-marquee-item {
+  font-family: var(--font-display); text-transform: uppercase; font-size: 8vw;
+  color: var(--text-primary); opacity: 0.8; letter-spacing: -0.03em; padding: 0 0.3em; gap: 0.3em;
+}
+.bx-skew-row + .bx-skew-row { margin-top: 0.4vh; }
+
+/* RotatingScrollIndicator arrow (Part 1.5) */
+.bx-rsi { display: inline-flex; align-items: center; justify-content: center; }
+.bx-rsi-arrow {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  color: var(--accent); display: inline-flex;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Hero / landing page utilities
+   ═══════════════════════════════════════════════════════ */
+
+.bg-dotgrid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px);
+  background-size: 14px 14px;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -265,11 +566,30 @@ body {
    ═══════════════════════════════════════════════════════ */
 
 .about-section {
+  /* Light "datasheet" theme — override the dark tokens locally so every
+     .about-* / .phase-* / .industry-* child inherits the light palette
+     without per-element rewrites. Fixed values, toggle-independent. */
+  --background: var(--bg-light);
+  --surface: var(--surface-light);
+  --surface-hover: #dedcd4;
+  --border: var(--border-light);
+  --border-hover: rgba(10, 10, 10, 0.22);
+  --text-primary: var(--text-primary-light);
+  --text-secondary: var(--text-secondary-light);
+  --text-muted: rgba(17, 17, 17, 0.5);
+  --accent: #ff6b00;
+  --silhouette-stroke: rgba(17, 17, 17, 0.55);
+
   position: relative;
   width: 100%;
-  background: var(--background);
+  background: var(--bg-light);
   padding: 100px 24px 120px;
   overflow: hidden;
+}
+
+/* White headline glow is a dark-scene effect — kill it on the light bg. */
+.about-section .headline-glow {
+  text-shadow: none;
 }
 
 .about-divider {
@@ -346,20 +666,21 @@ body {
 .about-label {
   font-family: var(--font-body);
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.18em;
-  color: var(--accent);
+  color: #ff6b00;
   text-transform: uppercase;
   margin-bottom: 20px;
+  opacity: 1;
 }
 
 /* Section headline */
 .about-headline {
   font-family: var(--font-heading);
-  font-weight: 600;
+  font-weight: 800;
   font-size: clamp(1.5rem, 3vw, 2.2rem);
   line-height: 1.3;
-  color: var(--text-primary);
+  color: #0A0A0A;
   max-width: 800px;
   margin-bottom: 28px;
   letter-spacing: 0.01em;
@@ -368,10 +689,10 @@ body {
 /* Intro paragraph */
 .about-intro {
   font-family: var(--font-body);
-  font-weight: 400;
+  font-weight: 450;
   font-size: 1rem;
   line-height: 1.8;
-  color: var(--text-secondary);
+  color: #3A3830;
   max-width: 750px;
   margin-bottom: 60px;
 }
@@ -403,25 +724,28 @@ body {
   gap: 8px;
   padding: 0;
   transition: opacity 0.3s ease;
-  opacity: 0.4;
+  opacity: 1;
 }
 
 .phase-dot.active {
   opacity: 1;
 }
 
+
 .phase-dot::before {
   content: "";
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--dot-color);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  background: #9e9c96;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow: none;
 }
 
 .phase-dot.active::before {
-  box-shadow: 0 0 12px var(--dot-color);
-  transform: scale(1.2);
+  background: var(--dot-color);
+  box-shadow: 0 0 0 3px var(--bg-light), 0 0 0 4.5px var(--dot-color);
+  transform: scale(1);
 }
 
 .phase-dot-label {
@@ -429,12 +753,13 @@ body {
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.15em;
-  color: var(--text-secondary);
+  color: #8a877f;
   text-transform: uppercase;
+  transition: color 0.3s ease;
 }
 
 .phase-dot.active .phase-dot-label {
-  color: var(--text-primary);
+  color: #0A0A0A;
 }
 
 .phase-visual {
@@ -583,19 +908,19 @@ body {
 
 .explain-headline {
   font-family: var(--font-heading);
-  font-weight: 600;
+  font-weight: 800;
   font-size: 1.5rem;
-  color: var(--text-primary);
+  color: #0A0A0A;
   margin-bottom: 18px;
   letter-spacing: 0.01em;
 }
 
 .explain-text {
   font-family: var(--font-body);
-  font-weight: 400;
+  font-weight: 450;
   font-size: 0.95rem;
   line-height: 1.8;
-  color: var(--text-secondary);
+  color: #3A3830;
   max-width: 720px;
   margin: 0 auto 50px;
 }
@@ -610,43 +935,47 @@ body {
 .industry-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 28px 20px;
-  text-align: center;
+  border-radius: 0;
+  padding: 26px 22px;
+  text-align: left;
   transition: border-color 0.3s ease, background 0.3s ease;
 }
 
 .industry-card:hover {
-  border-color: rgba(232, 106, 0, 0.25);
+  border-color: rgba(255, 107, 0, 0.4);
   background: var(--surface-hover);
 }
 
 .industry-icon-wrap {
-  width: 36px;
-  height: 36px;
-  margin: 0 auto 14px;
-  color: var(--accent);
+  width: 44px;
+  height: 44px;
+  margin: 0 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  color: #ff6b00;
 }
 
 .industry-icon {
-  width: 100%;
-  height: 100%;
+  width: 22px;
+  height: 22px;
 }
 
 .industry-name {
   font-family: var(--font-heading);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.95rem;
-  color: var(--text-primary);
+  color: #0A0A0A;
   margin-bottom: 8px;
 }
 
 .industry-desc {
   font-family: var(--font-body);
   font-size: 0.8rem;
-  font-weight: 400;
+  font-weight: 450;
   line-height: 1.6;
-  color: var(--text-muted);
+  color: #58564f;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -655,10 +984,10 @@ body {
 
 .category-line {
   font-family: var(--font-heading);
-  font-weight: 600;
+  font-weight: 700;
   font-size: clamp(1.1rem, 2.5vw, 1.6rem);
   line-height: 1.4;
-  color: var(--text-primary);
+  color: #0A0A0A;
   max-width: 700px;
   text-align: center;
 }
@@ -2199,4 +2528,152 @@ body {
 .contact-container textarea:focus {
   border-color: rgba(232, 106, 0, 0.5) !important;
   box-shadow: 0 0 0 2px rgba(232, 106, 0, 0.06);
+}
+
+/* ═══════════════════════════════════════════════════════
+   HERO — scroll-scrubbed BackEx model reveal (build spec §4)
+   ═══════════════════════════════════════════════════════ */
+
+.hero-wrapper {
+  position: relative;
+  width: 100%;
+  /* Tall scroll track — gives ScrollTrigger room to scrub the reveal.
+     Reduced-motion collapses this to a single viewport (see below). */
+  height: 320vh;
+  background: var(--bg-void);
+}
+
+.hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Lightweight placeholder shown before the R3F canvas mounts */
+.hero-poster {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 42%, rgba(255, 107, 0, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse at center, #141414 0%, var(--bg-void) 70%);
+}
+
+.hero-canvas-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.hero-content {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Dark radial scrim so text stays legible over the model */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%,
+      rgba(9, 9, 9, 0.72) 0%,
+      rgba(9, 9, 9, 0.35) 45%,
+      transparent 70%);
+}
+
+/* Scroll affordance — thin animated line, no bounce */
+.hero-scroll-cue {
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.hero-scroll-cue span {
+  font-family: var(--font-heading);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(247, 247, 247, 0.4);
+}
+
+.hero-scroll-line {
+  position: relative;
+  width: 1px;
+  height: 46px;
+  background: rgba(247, 247, 247, 0.12);
+  overflow: hidden;
+}
+
+.hero-scroll-line::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(180deg, transparent, var(--accent-orange));
+  animation: heroScrollTravel 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes heroScrollTravel {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(300%); }
+}
+
+/* ── Nav morph: hexagonal floating console (build spec §3) ── */
+
+.nav-hex-glow {
+  /* soft orange outer glow, not a solid border */
+  box-shadow:
+    0 0 0 1px rgba(255, 107, 0, 0.14),
+    0 6px 30px rgba(0, 0, 0, 0.45),
+    0 0 34px rgba(255, 107, 0, 0.16);
+}
+
+.nav-console-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: var(--text-secondary-spec);
+  transition: color 0.2s ease;
+}
+
+.nav-console-item:hover {
+  color: var(--text-primary-spec);
+}
+
+.nav-console-label {
+  font-family: var(--font-heading);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Reduced-motion: static hero, no scroll scrub (build spec §5)
+   ═══════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-wrapper {
+    height: 100vh;
+  }
+
+  .hero-scroll-line::after {
+    animation: none;
+  }
 }

@@ -1,27 +1,31 @@
 "use client";
 
+import { useMotionValue } from "framer-motion";
 import Navbar from "../components/Navbar";
 import BackExModel from "../components/BackExModel";
 import BackExFaq from "../components/BackExFaq";
 
 export default function BackExPage() {
+    // Constant progress keeps the redesigned Navbar in its full-bar state
+    // on this interior page (no hero scroll track to drive the morph).
+    const navProgress = useMotionValue(0);
     return (
         <div style={{ background: "var(--background)", color: "var(--foreground)", minHeight: "100vh" }} className="font-sans selection:bg-orange-500/30">
 
             {/* ═══════════════ NAVBAR ═══════════════ */}
-            <Navbar />
+            <Navbar progress={navProgress} />
 
             {/* =========================================
           SECTION 1: HERO INTRODUCTION
           ========================================= */}
             <section className="relative flex flex-col justify-center px-6 lg:px-16 overflow-hidden pt-40 pb-20">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] pointer-events-none
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-200 h-125 pointer-events-none
           bg-[radial-gradient(ellipse_at_top,rgba(249,115,22,0.07),transparent_60%)]" />
 
                 <div className="relative z-10 max-w-7xl mx-auto text-center flex flex-col items-center">
-                    <h1 className="text-5xl md:text-7xl lg:text-[85px] font-bold tracking-tighter leading-[0.9] uppercase"
+                    <h1 className="text-5xl md:text-7xl lg:text-[5.3125rem] font-bold tracking-tighter leading-[0.9] uppercase"
                         style={{ color: "var(--text-primary)" }}>
-                        Back<span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600">EX</span>
+                        Back<span className="text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-orange-600">EX</span>
                     </h1>
 
                     <p className="mt-8 max-w-2xl text-lg md:text-xl font-light tracking-wide leading-relaxed"
@@ -36,7 +40,7 @@ export default function BackExPage() {
           ========================================= */}
             <section id="backex" className="relative py-20 lg:py-32 px-6 lg:px-16 overflow-hidden"
                      style={{ borderTop: "1px solid var(--border)" }}>
-                <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+                <div className="max-w-350 mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
 
                     <div className="lg:col-span-5 relative group">
                         <BackExModel />
@@ -46,7 +50,7 @@ export default function BackExPage() {
                     <div className="lg:col-span-7 flex flex-col justify-center">
 
                         <div className="flex items-center gap-4 mb-6">
-                            <div className="h-[2px] w-8 bg-orange-500" />
+                            <div className="h-0.5 w-8 bg-orange-500" />
                             <span className="text-orange-500 font-bold tracking-[0.2em] uppercase text-xs">
                                 Flagship System // 01
                             </span>

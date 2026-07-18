@@ -1,413 +1,250 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import HardFlipCard from "./brutalist/HardFlipCard";
 
-/* ═══════════════════════════════════════════════════════════════════
-   Industry Grid items
-   ═══════════════════════════════════════════════════════════════════ */
-const INDUSTRIES = [
-    {
-        name: "Manufacturing",
-        desc: "Repetitive motion strain reduction on assembly lines.",
-        icon: (
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.2" className="industry-icon">
-                <rect x="4" y="18" width="10" height="10" rx="1" />
-                <rect x="18" y="12" width="10" height="16" rx="1" />
-                <line x1="9" y1="18" x2="9" y2="10" /><line x1="9" y1="10" x2="23" y2="10" /><line x1="23" y1="10" x2="23" y2="12" />
-            </svg>
-        ),
-    },
-    {
-        name: "Logistics",
-        desc: "Lift-assist and postural intelligence for warehouse operations.",
-        icon: (
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.2" className="industry-icon">
-                <rect x="6" y="8" width="14" height="10" rx="1" />
-                <rect x="10" y="18" width="6" height="8" rx="1" />
-                <line x1="6" y1="22" x2="26" y2="22" />
-                <circle cx="8" cy="26" r="2" /><circle cx="24" cy="26" r="2" />
-                <line x1="20" y1="13" x2="26" y2="13" /><line x1="26" y1="13" x2="26" y2="22" />
-            </svg>
-        ),
-    },
-    {
-        name: "Construction",
-        desc: "Overhead task support and fatigue monitoring on-site.",
-        icon: (
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.2" className="industry-icon">
-                <path d="M8 28 L16 6 L24 28" />
-                <line x1="10" y1="22" x2="22" y2="22" />
-                <line x1="16" y1="6" x2="16" y2="2" />
-                <line x1="12" y1="2" x2="20" y2="2" />
-            </svg>
-        ),
-    },
-    {
-        name: "Defence",
-        desc: "Load carriage augmentation and movement intelligence.",
-        icon: (
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.2" className="industry-icon">
-                <path d="M16 4 L26 10 L26 20 L16 28 L6 20 L6 10 Z" />
-                <line x1="16" y1="12" x2="16" y2="20" />
-                <line x1="12" y1="16" x2="20" y2="16" />
-            </svg>
-        ),
-    },
-];
+/* ══════════════════════════════════════════════════════════════════
+   Part 6 — About. Core concept kept: 3-phase toggle (STRAIN / SUPPORT /
+   AUGMENTATION), body silhouette that redraws per phase, node-hover
+   diagnostics, auto-cycle w/ hover-pause, industry grid. Restyled to the
+   brutalist system: sharp segmented control (hard accent fill), flat
+   line-art (no glow), instant sharp HUD, ONE accent — phases differ by
+   opacity/pattern, not hue. Industry grid = HardFlipCards.
+   ══════════════════════════════════════════════════════════════════ */
 
-/* ═══════════════════════════════════════════════════════════════════
-   Diagnostics Data for Hover Interactions
-   ═══════════════════════════════════════════════════════════════════ */
 const NODE_DATA = {
     cervical: { title: "Cervical & Upper Thoracic", desc: "Tension and postural fatigue from sustained awkward angles.", suit: "ShoulderEX" },
     shoulder: { title: "Deltoid & Rotator Cuff", desc: "High micro-tear risk from repetitive overhead lifting and static holds.", suit: "ShoulderEX" },
     lumbar: { title: "Lumbar L5-S1 Compression", desc: "Extreme disc pressure and erector spinae strain from heavy lifting.", suit: "BackEX" },
-    hip: { title: "Pelvic & Lower Back Linkage", desc: "Kinetic chain breakdown causing radiating lower back fatigue.", suit: "BackEX" },
+    hip: { title: "Pelvic & Lower-Back Linkage", desc: "Kinetic chain breakdown causing radiating lower-back fatigue.", suit: "BackEX" },
+};
+
+const INDUSTRIES = [
+    { name: "Manufacturing", desc: "Repetitive-motion strain reduction on assembly lines." },
+    { name: "Logistics", desc: "Lift-assist and postural intelligence for warehouse operations." },
+    { name: "Construction", desc: "Overhead task support and fatigue monitoring on-site." },
+    { name: "Defence", desc: "Load-carriage augmentation and movement intelligence." },
+];
+
+const PHASES = [
+    { label: "Strain", text: "That same strain — sustained and unaddressed — limits workforce potential." },
+    { label: "Support", text: "Extrive delivers structural support through wearable robotics." },
+    { label: "Augmentation", text: "Assistive hardware meets ergonomics intelligence." },
+];
+
+const BODY = (
+    <g stroke="var(--text-secondary)" strokeWidth="2" fill="none">
+        <ellipse cx="100" cy="42" rx="22" ry="26" />
+        <line x1="100" y1="68" x2="100" y2="180" />
+        <line x1="100" y1="90" x2="55" y2="145" />
+        <line x1="100" y1="90" x2="145" y2="145" />
+        <line x1="100" y1="180" x2="65" y2="290" />
+        <line x1="100" y1="180" x2="135" y2="290" />
+    </g>
+);
+
+const NODE_POS = {
+    cervical: { cx: 100, cy: 90 },
+    shoulderL: { cx: 75, cy: 120, data: "shoulder" },
+    shoulderR: { cx: 125, cy: 120, data: "shoulder" },
+    lumbar: { cx: 100, cy: 145 },
+    hip: { cx: 100, cy: 180 },
 };
 
 export default function AboutSection() {
-    const [activePhase, setActivePhase] = useState(0);
-    const [sectionVisible, setSectionVisible] = useState(false);
-    const [hoveredNode, setHoveredNode] = useState(null);
+    const [active, setActive] = useState(0);
+    const [visible, setVisible] = useState(false);
+    const [hovered, setHovered] = useState(null);
     const sectionRef = useRef(null);
-    const intervalRef = useRef(null);
 
-    // Intersection Observer — trigger when section scrolls into view
     useEffect(() => {
         const el = sectionRef.current;
         if (!el) return;
         const obs = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) setSectionVisible(true);
-            },
+            ([e]) => { if (e.isIntersecting) setVisible(true); },
             { threshold: 0.15 }
         );
         obs.observe(el);
         return () => obs.disconnect();
     }, []);
 
-    // Auto-cycle phases once visible, PAUSE if user is hovering over a node
+    // Auto-cycle phases; pause while inspecting a node. Respect reduced-motion.
     useEffect(() => {
-        if (!sectionVisible || hoveredNode) return;
-        intervalRef.current = setInterval(() => {
-            setActivePhase((p) => (p + 1) % 3);
-        }, 4000);
-        return () => clearInterval(intervalRef.current);
-    }, [sectionVisible, hoveredNode]);
+        if (!visible || hovered) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const id = setInterval(() => setActive((p) => (p + 1) % PHASES.length), 4000);
+        return () => clearInterval(id);
+    }, [visible, hovered]);
 
-    // Helper component for interactive nodes to keep SVG code clean
-    const InteractiveNode = ({ cx, cy, r, baseFill, opacity, className, data }) => {
-        const isActive = hoveredNode?.title === data.title;
+    const Node = ({ id }) => {
+        const pos = NODE_POS[id];
+        const dataKey = pos.data || id;
+        const data = NODE_DATA[dataKey];
+        const on = hovered?.key === dataKey;
+        // Phase-driven look — same hue, different opacity/size/motion.
+        const r = active === 0 ? 12 : active === 1 ? 6 : 7;
+        const op = active === 0 ? 0.5 : 0.85;
         return (
             <g>
                 <circle
+                    cx={pos.cx} cy={pos.cy} r={r} fill="var(--accent)" opacity={on ? 1 : op}
+                    className={active === 0 ? "ab-pulse" : ""}
                     data-cursor="node"
-                    cx={cx} cy={cy} r={r}
-                    fill={baseFill}
-                    opacity={isActive ? 1 : opacity}
-                    className={`${className} hover-node`}
-                    onMouseEnter={() => setHoveredNode({ ...data, cx, cy })}
-                    onMouseLeave={() => setHoveredNode(null)}
-                    onClick={() => setHoveredNode((prev) => prev?.title === data.title ? null : { ...data, cx, cy })}
-                    style={{
-                        transition: 'opacity 0.25s ease',
-                    }}
+                    style={{ cursor: "pointer" }}
+                    onMouseEnter={() => setHovered({ key: dataKey, ...data, cx: pos.cx, cy: pos.cy })}
+                    onMouseLeave={() => setHovered(null)}
+                    onClick={() => setHovered((p) => (p?.key === dataKey ? null : { key: dataKey, ...data, cx: pos.cx, cy: pos.cy }))}
                 />
-                {/* Lock ring — appears only when active. Restrained, no glow. */}
-                {isActive && (
-                    <circle
-                        cx={cx}
-                        cy={cy}
-                        r={r + 6}
-                        fill="none"
-                        stroke="#e86a00"
-                        strokeWidth="0.8"
-                        opacity="0.9"
-                        style={{ pointerEvents: 'none' }}
-                    />
-                )}
+                {on && <circle cx={pos.cx} cy={pos.cy} r={r + 6} fill="none" stroke="var(--accent)" strokeWidth="1.5" />}
             </g>
         );
     };
 
-    // Move PHASES inside component to access state/functions
-    const PHASES = [
-        {
-            label: "STRAIN",
-            color: "#ff3b3b",
-            text: "Sustained physical strain limits workforce potential.",
-            svg: (
-                <svg viewBox="0 0 200 320" fill="none" className="phase-svg">
-                    {/* Body silhouette */}
-                    <ellipse cx="100" cy="42" rx="22" ry="26" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    <line x1="100" y1="68" x2="100" y2="180" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    <line x1="100" y1="90" x2="55" y2="145" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    <line x1="100" y1="90" x2="145" y2="145" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    <line x1="100" y1="180" x2="65" y2="290" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    <line x1="100" y1="180" x2="135" y2="290" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    
-                    {/* Interactive Strain Zones */}
-                    <InteractiveNode cx="100" cy="90" r="12" baseFill="rgba(255,59,59,0.5)" opacity={0.5} className="strain-pulse" data={NODE_DATA.cervical} />
-                    <InteractiveNode cx="75" cy="120" r="10" baseFill="rgba(255,59,59,0.5)" opacity={0.5} className="strain-pulse delay-2" data={NODE_DATA.shoulder} />
-                    <InteractiveNode cx="125" cy="120" r="10" baseFill="rgba(255,59,59,0.5)" opacity={0.5} className="strain-pulse delay-2" data={NODE_DATA.shoulder} />
-                    <InteractiveNode cx="100" cy="145" r="14" baseFill="rgba(255,59,59,0.5)" opacity={0.5} className="strain-pulse delay-1" data={NODE_DATA.lumbar} />
-                    <InteractiveNode cx="100" cy="180" r="12" baseFill="rgba(255,59,59,0.5)" opacity={0.5} className="strain-pulse delay-1" data={NODE_DATA.hip} />
-                </svg>
-            ),
-        },
-        {
-            label: "SUPPORT",
-            color: "#e86a00",
-            text: "Extrive delivers structural support through wearable robotics.",
-            svg: (
-                <svg viewBox="0 0 200 320" fill="none" className="phase-svg">
-                    <ellipse cx="100" cy="42" rx="22" ry="26" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    <line x1="100" y1="68" x2="100" y2="180" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    <line x1="100" y1="90" x2="55" y2="145" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    <line x1="100" y1="90" x2="145" y2="145" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    <line x1="100" y1="180" x2="65" y2="290" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    <line x1="100" y1="180" x2="135" y2="290" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    
-                    <path d="M78 75 Q100 65 122 75 L130 140 Q100 150 70 140 Z" stroke="#e86a00" strokeWidth="1.2" fill="none" className="suit-draw" />
-                    <path d="M70 140 L60 175 Q100 185 140 175 L130 140" stroke="#e86a00" strokeWidth="1.2" fill="none" className="suit-draw delay-1" />
-                    
-                    {/* Interactive Support Nodes */}
-                    <InteractiveNode cx="100" cy="90" r="6" baseFill="#e86a00" opacity={0.8} className="" data={NODE_DATA.cervical} />
-                    <InteractiveNode cx="75" cy="120" r="5" baseFill="#e86a00" opacity={0.8} className="" data={NODE_DATA.shoulder} />
-                    <InteractiveNode cx="125" cy="120" r="5" baseFill="#e86a00" opacity={0.8} className="" data={NODE_DATA.shoulder} />
-                    <InteractiveNode cx="100" cy="145" r="6" baseFill="#e86a00" opacity={0.8} className="" data={NODE_DATA.lumbar} />
-                    <InteractiveNode cx="100" cy="180" r="6" baseFill="#e86a00" opacity={0.8} className="" data={NODE_DATA.hip} />
-                </svg>
-            ),
-        },
-        {
-            label: "AUGMENTATION",
-            color: "#4da6ff",
-            text: "Assistive hardware meets ergonomics intelligence.",
-            svg: (
-                <svg viewBox="0 0 200 320" fill="none" className="phase-svg">
-                    <ellipse cx="100" cy="42" rx="22" ry="26" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    <line x1="100" y1="68" x2="100" y2="180" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    <line x1="100" y1="90" x2="55" y2="145" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    <line x1="100" y1="90" x2="145" y2="145" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    <line x1="100" y1="180" x2="65" y2="290" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    <line x1="100" y1="180" x2="135" y2="290" stroke="var(--silhouette-stroke)" strokeWidth="1.5" />
-                    
-                    <path d="M78 75 Q100 65 122 75 L130 140 Q100 150 70 140 Z" stroke="#4da6ff" strokeWidth="1" fill="none" opacity="0.4" />
-                    <path d="M70 140 L60 175 Q100 185 140 175 L130 140" stroke="#4da6ff" strokeWidth="1" fill="none" opacity="0.4" />
-                    
-                    <line x1="100" y1="42" x2="100" y2="90" stroke="#4da6ff" strokeWidth="1.5" className="data-flow" />
-                    <line x1="100" y1="90" x2="100" y2="145" stroke="#4da6ff" strokeWidth="1.5" className="data-flow delay-1" />
-                    
-                    {/* Interactive Smart Nodes */}
-                    <InteractiveNode cx="100" cy="90" r="7" baseFill="#4da6ff" opacity={0.7} className="node-glow delay-1" data={NODE_DATA.cervical} />
-                    <InteractiveNode cx="75" cy="120" r="6" baseFill="#4da6ff" opacity={0.6} className="node-glow delay-2" data={NODE_DATA.shoulder} />
-                    <InteractiveNode cx="125" cy="120" r="6" baseFill="#4da6ff" opacity={0.6} className="node-glow delay-2" data={NODE_DATA.shoulder} />
-                    <InteractiveNode cx="100" cy="145" r="7" baseFill="#4da6ff" opacity={0.7} className="node-glow delay-1" data={NODE_DATA.lumbar} />
-                    <InteractiveNode cx="100" cy="180" r="7" baseFill="#4da6ff" opacity={0.6} className="node-glow delay-2" data={NODE_DATA.hip} />
-                </svg>
-            ),
-        },
-    ];
-
-    const phase = PHASES[activePhase];
+    const phase = PHASES[active];
 
     return (
-        <section
-            ref={sectionRef}
-            id="about"
-            className="about-section"
-        >
-            <div className="about-divider" />
-
-            <div className="about-container">
-
-                <span className={`about-label ${sectionVisible ? "fade-up-in" : "pre-fade"}`}>
-                    ABOUT EXTRIVE
-                </span>
-
-                <h2 className={`about-headline headline-glow ${sectionVisible ? "fade-up-in d1" : "pre-fade"}`}>
-                    Engineering the Future of Industrial Human Augmentation
+        <section id="about" ref={sectionRef} className="ab-section">
+            <div className="ab-inner">
+                <div className="ab-eyebrow">
+                    <span className="bx-sq" aria-hidden="true" />
+                    About Extrive
+                </div>
+                <h2 className="ab-title">
+                    Engineering the future of<br />
+                    <span className="ab-accent">human augmentation.</span>
                 </h2>
-
-                <p className={`about-intro ${sectionVisible ? "fade-up-in d2" : "pre-fade"}`}>
-                    Extrive Innovations develops wearable exosuits and ergonomics
-                    intelligence systems for industries where physical work is essential.
-                    <br /><br />
-                    From manufacturing floors and logistics hubs to construction sites
-                    and defence environments, our technology reduces strain, enhances
-                    safety, and improves human performance.
+                <p className="ab-intro">
+                    Extrive Innovations develops wearable exosuits and ergonomics-intelligence
+                    systems for industries where physical work is essential — reducing strain,
+                    enhancing safety, and improving human performance from the factory floor to
+                    the front line.
                 </p>
 
-                {/* ─── 3-Phase Animated Transformation ─── */}
-                <div className={`phase-container ${sectionVisible ? "fade-up-in d3" : "pre-fade"}`} style={{ position: 'relative' }}>
-                    
-                    {/* Instructional text for interaction */}
-                    <div style={{
-                        textAlign: 'center',
-                        fontSize: '0.75rem',
-                        letterSpacing: '2px',
-                        color: phase.color,
-                        marginBottom: '1rem',
-                        fontFamily: 'monospace',
-                        textTransform: 'uppercase',
-                        opacity: 0.8,
-                        transition: 'color 0.4s ease'
-                    }}>
-                        [ HOVER ON BODY NODES FOR DIAGNOSTICS & SOLUTIONS ]
-                    </div>
-
-                    {/* Phase indicator dots */}
-                    <div className="phase-indicators">
+                {/* Phase visual */}
+                <div className="ab-stage" onMouseLeave={() => setHovered(null)}>
+                    {/* Segmented control */}
+                    <div className="ab-seg" role="tablist" aria-label="Transformation phase">
                         {PHASES.map((p, i) => (
                             <button
                                 key={p.label}
-                                className={`phase-dot ${i === activePhase ? "active" : ""}`}
-                                onClick={() => setActivePhase(i)}
-                                style={{ "--dot-color": p.color }}
+                                role="tab"
+                                aria-selected={i === active}
+                                className={`ab-seg-btn ${i === active ? "on" : ""}`}
+                                onClick={() => setActive(i)}
                             >
-                                <span className="phase-dot-label">{p.label}</span>
+                                {p.label}
                             </button>
                         ))}
                     </div>
 
-                    {/* SVG + text */}
-                    <div className="phase-visual" style={{ position: 'relative' }}>
-                        <div className="phase-svg-wrap" key={activePhase} style={{ position: 'relative' }}>
-                            {phase.svg}
+                    <p className="ab-hint" aria-hidden="true">[ Hover the body nodes for diagnostics &amp; solutions ]</p>
 
-                            {/* Directional cue from active node toward HUD anchor */}
-                            {hoveredNode && hoveredNode.cx != null && (
-                                <svg
-                                    viewBox="0 0 200 320"
-                                    preserveAspectRatio="xMidYMid meet"
-                                    style={{
-                                        position: 'absolute',
-                                        inset: 0,
-                                        width: '100%',
-                                        height: '100%',
-                                        pointerEvents: 'none',
-                                    }}
-                                >
-                                    <line
-                                        x1={hoveredNode.cx}
-                                        y1={hoveredNode.cy}
-                                        x2={195}
-                                        y2={40}
-                                        stroke="#e86a00"
-                                        strokeWidth="0.6"
-                                        strokeDasharray="2 3"
-                                        opacity="0.7"
-                                    />
-                                    <circle cx={195} cy={40} r="1.5" fill="#e86a00" opacity="0.9" />
-                                </svg>
+                    <div className="ab-visual">
+                        <svg viewBox="0 0 200 320" className="ab-svg" key={active}>
+                            {/* body — dimmed a touch in the augmentation phase */}
+                            <g opacity={active === 2 ? 0.5 : 1}>{BODY}</g>
+
+                            {/* SUPPORT — accent suit wireframe */}
+                            {active === 1 && (
+                                <g stroke="var(--accent)" strokeWidth="2" fill="none">
+                                    <path d="M78 75 Q100 65 122 75 L130 140 Q100 150 70 140 Z" />
+                                    <path d="M70 140 L60 175 Q100 185 140 175 L130 140" />
+                                </g>
                             )}
-                        </div>
-                        
-                        {/* ─── Diagnostic HUD (refined, restrained) ─── */}
-                        {hoveredNode && (
-                            <div
-                                className="diagnostic-hud"
-                                style={{
-                                    position: 'absolute',
-                                    top: '8%',
-                                    right: '6%',
-                                    width: '230px',
-                                    padding: '14px 16px',
-                                    background: 'var(--navbar-bg)',
-                                    backdropFilter: 'blur(8px)',
-                                    border: '1px solid var(--border)',
-                                    borderLeft: `1px solid ${phase.color}`,
-                                    borderRadius: '2px',
-                                    color: 'var(--text-primary)',
-                                    zIndex: 10,
-                                    textAlign: 'left',
-                                }}
-                            >
-                                <div style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '8px',
-                                    fontSize: '0.6rem',
-                                    color: phase.color,
-                                    letterSpacing: '0.18em',
-                                    marginBottom: '10px',
-                                    fontFamily: 'monospace',
-                                    textTransform: 'uppercase',
-                                }}>
-                                    <span style={{ width: '10px', height: '1px', background: phase.color }} />
-                                    NODE · DIAGNOSTIC
-                                </div>
-                                <h4 style={{
-                                    margin: '0 0 6px 0',
-                                    fontSize: '0.85rem',
-                                    fontWeight: 600,
-                                    letterSpacing: '0.02em',
-                                    textTransform: 'uppercase',
-                                    color: 'var(--text-primary)',
-                                }}>
-                                    {hoveredNode.title}
-                                </h4>
-                                <p style={{
-                                    margin: '0 0 14px 0',
-                                    fontSize: '0.75rem',
-                                    color: 'var(--text-secondary)',
-                                    lineHeight: 1.5,
-                                }}>
-                                    {hoveredNode.desc}
-                                </p>
-                                <div style={{
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    gap: '6px',
-                                    padding: '5px 10px',
-                                    border: `1px solid ${phase.color}`,
-                                    color: phase.color,
-                                    fontSize: '0.65rem',
-                                    fontWeight: 600,
-                                    letterSpacing: '0.14em',
-                                    fontFamily: 'var(--font-heading)',
-                                    textTransform: 'uppercase',
-                                }}>
-                                    Deploy · {hoveredNode.suit}
-                                </div>
+                            {/* AUGMENTATION — accent data flow */}
+                            {active === 2 && (
+                                <g stroke="var(--accent)" strokeWidth="2" className="ab-flow">
+                                    <line x1="100" y1="42" x2="100" y2="90" />
+                                    <line x1="100" y1="90" x2="100" y2="145" />
+                                    <line x1="100" y1="145" x2="100" y2="180" />
+                                </g>
+                            )}
+
+                            <Node id="cervical" />
+                            <Node id="shoulderL" />
+                            <Node id="shoulderR" />
+                            <Node id="lumbar" />
+                            <Node id="hip" />
+                        </svg>
+
+                        {/* Sharp diagnostic HUD — instant, mono, accent left rule */}
+                        {hovered && (
+                            <div className="ab-hud">
+                                <div className="ab-hud-tag">Node · Diagnostic</div>
+                                <div className="ab-hud-title">{hovered.title}</div>
+                                <p className="ab-hud-desc">{hovered.desc}</p>
+                                <div className="ab-hud-deploy">Deploy · {hovered.suit}</div>
                             </div>
                         )}
-
-                        <p className="phase-text" style={{ color: phase.color }} key={`t-${activePhase}`}>
-                            {phase.text}
-                        </p>
                     </div>
+
+                    <p className="ab-phase-text" key={`t${active}`}>{phase.text}</p>
                 </div>
 
-                <div className={`explain-block ${sectionVisible ? "fade-up-in d4" : "pre-fade"}`}>
-                    <h3 className="explain-headline">
-                        Built for High-Demand Environments
-                    </h3>
-                    <p className="explain-text">
-                        Our systems are designed for industries where performance and
-                        endurance matter most. By integrating intelligent software with
-                        assistive hardware, Extrive enables workers to operate more safely,
-                        more efficiently, and with reduced long-term physical impact.
-                    </p>
-
-                    <div className="industry-grid">
-                        {INDUSTRIES.map((ind) => (
-                            <div className="industry-card" key={ind.name}>
-                                <div className="industry-icon-wrap">{ind.icon}</div>
-                                <h4 className="industry-name">{ind.name}</h4>
-                                <p className="industry-desc">{ind.desc}</p>
-                            </div>
-                        ))}
-                    </div>
+                {/* Industry grid — HardFlipCards */}
+                <div className="ab-ind-grid bx-grid-hair">
+                    {INDUSTRIES.map((ind) => (
+                        <HardFlipCard key={ind.name} className="bx-flip--seamless ab-ind">
+                            <h4 className="ab-ind-name">{ind.name}</h4>
+                            <p className="ab-ind-desc">{ind.desc}</p>
+                        </HardFlipCard>
+                    ))}
                 </div>
-
-                <p className={`category-line headline-glow ${sectionVisible ? "fade-up-in d5" : "pre-fade"}`}>
-                    Extrive is defining a new category of industrial human
-                    augmentation technologies.
-                </p>
-
             </div>
+
+            <style dangerouslySetInnerHTML={{ __html: STYLES }} />
         </section>
     );
 }
+
+const STYLES = `
+.ab-section { background: var(--bg-void); border-top: 2px solid var(--border); }
+.ab-inner { max-width: 1200px; margin: 0 auto; padding: clamp(72px, 10vw, 130px) clamp(16px, 4vw, 48px); text-align: center; }
+
+.ab-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-mono); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 24px; }
+.ab-title { font-family: var(--font-display); text-transform: uppercase; font-size: clamp(2.2rem, 6.5vw, 5rem); line-height: 0.9; letter-spacing: -0.04em; color: var(--text-primary); margin: 0 0 28px; }
+.ab-accent { color: var(--accent); }
+.ab-intro { font-family: var(--font-body); font-size: clamp(1.05rem, 1.6vw, 1.3rem); line-height: 1.7; color: var(--text-secondary); max-width: 760px; margin: 0 auto clamp(48px, 7vw, 80px); }
+
+/* Segmented control */
+.ab-seg { display: inline-flex; border: 2px solid var(--border); margin-bottom: 22px; }
+.ab-seg-btn { font-family: var(--font-mono); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.06em; font-weight: 700; color: var(--text-secondary); background: transparent; border: none; border-right: 2px solid var(--border); padding: 12px 20px; cursor: pointer; transition: background 150ms ease-in-out, color 150ms ease-in-out; }
+.ab-seg-btn:last-child { border-right: none; }
+.ab-seg-btn:hover { color: var(--text-primary); }
+.ab-seg-btn.on { background: var(--accent); color: var(--accent-foreground); }
+
+.ab-hint { font-family: var(--font-mono); text-transform: uppercase; font-size: 0.62rem; letter-spacing: 0.14em; color: var(--text-secondary); margin: 0 0 24px; }
+
+.ab-visual { position: relative; display: flex; justify-content: center; min-height: 300px; }
+.ab-svg { width: 150px; height: 240px; }
+.ab-pulse { animation: abPulse 2s ease-in-out infinite; }
+@keyframes abPulse { 0%,100% { opacity: 0.35; } 50% { opacity: 0.6; } }
+.ab-flow line { stroke-dasharray: 6 5; animation: abFlow 1.4s linear infinite; }
+@keyframes abFlow { to { stroke-dashoffset: -22; } }
+
+/* Sharp HUD */
+.ab-hud { position: absolute; top: 4%; right: 2%; width: 240px; text-align: left; background: var(--bg-void); border: 2px solid var(--border); border-left: 3px solid var(--accent); padding: 16px 18px; z-index: 5; }
+.ab-hud-tag { font-family: var(--font-mono); text-transform: uppercase; font-size: 0.58rem; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 10px; }
+.ab-hud-title { font-family: var(--font-display); text-transform: uppercase; font-size: 0.9rem; letter-spacing: -0.01em; color: var(--text-primary); margin-bottom: 8px; line-height: 1; }
+.ab-hud-desc { font-family: var(--font-body); font-size: 0.78rem; line-height: 1.5; color: var(--text-secondary); margin: 0 0 14px; }
+.ab-hud-deploy { display: inline-block; font-family: var(--font-mono); text-transform: uppercase; font-size: 0.62rem; letter-spacing: 0.1em; color: var(--accent); border: 1px solid var(--accent); padding: 5px 10px; }
+
+.ab-phase-text { font-family: var(--font-body); font-size: 1rem; line-height: 1.6; color: var(--text-primary); max-width: 460px; margin: 28px auto 0; }
+
+/* Industry grid */
+.ab-ind-grid { grid-template-columns: repeat(4, 1fr); border: 2px solid var(--border); margin-top: clamp(56px, 8vw, 96px); text-align: left; }
+.ab-ind { padding: clamp(24px, 2.4vw, 36px); min-height: 180px; display: flex; flex-direction: column; }
+.ab-ind-name { font-family: var(--font-display); text-transform: uppercase; font-size: clamp(1.1rem, 2vw, 1.5rem); letter-spacing: -0.02em; margin: 0 0 12px; color: inherit; }
+.ab-ind-desc { font-family: var(--font-body); font-size: 0.9rem; line-height: 1.55; color: var(--text-secondary); margin: 0; }
+.bx-flip:hover .ab-ind-desc, .bx-flip:focus-within .ab-ind-desc { color: var(--accent-foreground); }
+
+@media (max-width: 820px) {
+    .ab-hud { position: static; width: 100%; max-width: 320px; margin: 20px auto 0; }
+    .ab-visual { flex-direction: column; align-items: center; }
+    .ab-ind-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+    .ab-ind-grid { grid-template-columns: 1fr; }
+    .ab-seg { flex-wrap: wrap; }
+}
+`;
