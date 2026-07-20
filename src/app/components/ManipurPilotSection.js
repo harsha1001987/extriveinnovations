@@ -1,166 +1,62 @@
 "use client";
 
-import { useTheme } from "./ThemeProvider";
+/* ══════════════════════════════════════════════════════════════════
+   Field proof — Manipur pilot footage. Sits directly under About,
+   brutalist system: flat type, one accent, hairline media frame,
+   no decorative boxing.
+   ══════════════════════════════════════════════════════════════════ */
 
 export default function ManipurPilotSection() {
-    const { theme } = useTheme();
-
     return (
-        <section
-            style={{
-                background: "transparent",
-                padding: "80px 24px 120px",
-            }}
-        >
-            <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-                
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "60px", marginBottom: "60px", alignItems: "start" }} className="team-grid">
-                    {/* Left Column */}
-                    <div>
-                        <div
-                            style={{
-                                fontFamily: "var(--font-heading)",
-                                fontSize: "10px",
-                                fontWeight: 500,
-                                letterSpacing: "0.2em",
-                                color: "var(--accent)",
-                                textTransform: "uppercase",
-                                marginBottom: "24px",
-                            }}
-                        >
-                            Pilot
-                        </div>
-
-                        <h2
-                            style={{
-                                fontFamily: "var(--font-heading)",
-                                fontWeight: 700,
-                                fontSize: "clamp(2.5rem, 5vw, 4rem)",
-                                color: "var(--text-primary)",
-                                lineHeight: 1.05,
-                                letterSpacing: "-0.02em",
-                                marginBottom: "24px",
-                            }}
-                        >
-                            BackEX in the<br />field.
-                        </h2>
-
-                        <p
-                            style={{
-                                fontFamily: "var(--font-heading)",
-                                fontWeight: 400,
-                                fontSize: "16px",
-                                lineHeight: 1.7,
-                                color: "var(--text-secondary)",
-                                maxWidth: "480px",
-                            }}
-                        >
-                            BackEX proved itself in demanding operational conditions, navigating tough terrain alongside soldiers and logistics personnel. Watch the technology deliver where it matters most.
-                        </p>
-                    </div>
-
-                    {/* Right Column - Metrics */}
-                    <div 
-                        style={{
-                            display: "grid",
-                            gridTemplateColumns: "1fr 1fr",
-                            gap: "0",
-                            border: "1px solid var(--border)",
-                            background: "var(--surface)",
-                        }}
-                    >
-                        {/* Metric 1 */}
-                        <div style={{ padding: "32px", borderRight: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
-                            <div style={{ fontFamily: "var(--font-heading)", fontSize: "2rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "8px" }}>
-                                <span style={{ color: "var(--accent)" }}>Validated</span>
-                            </div>
-                            <div style={{ fontFamily: "var(--font-heading)", fontSize: "11px", color: "var(--text-muted)", letterSpacing: "0.02em" }}>
-                                Successful field testing in demanding operational conditions
-                            </div>
-                        </div>
-
-                        {/* Metric 2 */}
-                        <div style={{ padding: "32px", borderBottom: "1px solid var(--border)" }}>
-                            <div style={{ fontFamily: "var(--font-heading)", fontSize: "2rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "8px" }}>
-                                90%<span style={{ color: "var(--accent)" }}>+</span>
-                            </div>
-                            <div style={{ fontFamily: "var(--font-heading)", fontSize: "11px", color: "var(--text-muted)", letterSpacing: "0.02em" }}>
-                                Adoption rate in this trial
-                            </div>
-                        </div>
-
-                        {/* Metric 3 */}
-                        <div style={{ padding: "32px", borderRight: "1px solid var(--border)" }}>
-                            <div style={{ fontFamily: "var(--font-heading)", fontSize: "2rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "8px" }}>
-                                10K<span style={{ color: "var(--accent)" }}>+</span>
-                            </div>
-                            <div style={{ fontFamily: "var(--font-heading)", fontSize: "11px", color: "var(--text-muted)", letterSpacing: "0.02em" }}>
-                                Engineered to thrive in any environment
-                            </div>
-                        </div>
-
-                        {/* Metric 4 */}
-                        <div style={{ padding: "32px" }}>
-                            <div style={{ fontFamily: "var(--font-heading)", fontSize: "2rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "8px" }}>
-                                0W
-                            </div>
-                            <div style={{ fontFamily: "var(--font-heading)", fontSize: "11px", color: "var(--text-muted)", letterSpacing: "0.02em" }}>
-                                Power required — fully passive
-                            </div>
-                        </div>
-                    </div>
+        <section className="mp-section">
+            <div className="mp-inner">
+                <div className="mp-eyebrow">
+                    <span className="bx-sq" aria-hidden="true" />
+                    Field Pilot
                 </div>
+                <h2 className="mp-title">
+                    BackEX in the <span className="mp-accent">field.</span>
+                </h2>
+                <p className="mp-lede">
+                    BackEX proved itself in demanding operational conditions, navigating
+                    tough terrain alongside soldiers and logistics personnel.
+                </p>
 
-                {/* Video Container */}
-                <div
-                    data-cursor="media"
-                    style={{
-                        position: "relative",
-                        width: "100%",
-                        
-                        paddingTop: "55%", // Cinematic aspect ratio roughly 21:9
-                        background: "#050505",
-                        border: "1px solid var(--border)",
-                        borderRadius: "2px",
-                        overflow: "hidden"
-                    }}
-                >
-                    <video 
-                        src="/textures/manipur.mp4" 
+                <div className="mp-media" data-cursor="media">
+                    <video
+                        src="/textures/manipur.mp4"
                         controls
                         muted
                         poster="/textures/poster.png"
-                        style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover"
-                        }}
+                        className="mp-video"
                     />
-                    
-                    {/* Placeholder content if video is empty/fails */}
-                    <div 
-                        style={{ 
-                            position: "absolute", 
-                            bottom: "24px", 
-                            left: "24px", 
-                            padding: "8px 16px",
-                            background: "rgba(0,0,0,0.8)",
-                            border: "1px solid rgba(232,106,0,0.4)",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "12px",
-                            pointerEvents: "none",
-                        }}
-                    >
-                        <span style={{ color: "var(--accent)", fontSize: "10px", fontFamily: "monospace" }}>▶</span>
-                        <span style={{ fontFamily: "var(--font-heading)", fontSize: "10px", color: "white", letterSpacing: "0.15em", textTransform: "uppercase" }}>Manipur Field Pilot · BackEX</span>
+                    <div className="mp-tag">
+                        <span className="mp-tag-dot" aria-hidden="true" />
+                        Manipur Field Pilot · BackEX
                     </div>
                 </div>
-
             </div>
+
+            <style dangerouslySetInnerHTML={{ __html: STYLES }} />
         </section>
     );
 }
+
+const STYLES = `
+.mp-section { background: var(--bg-void); }
+.mp-inner { max-width: 1400px; margin: 0 auto; padding: clamp(48px, 6vw, 90px) clamp(16px, 4vw, 48px) clamp(72px, 10vw, 130px); }
+
+.mp-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-mono); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 22px; }
+.mp-title { font-family: var(--font-display); text-transform: uppercase; font-size: clamp(2.2rem, 6vw, 4.5rem); line-height: 0.9; letter-spacing: -0.04em; color: var(--text-primary); margin: 0 0 20px; }
+.mp-accent { color: var(--accent); }
+.mp-lede { font-family: var(--font-body); font-size: clamp(1rem, 1.4vw, 1.2rem); line-height: 1.65; color: var(--text-secondary); max-width: 620px; margin: 0 0 clamp(36px, 5vw, 56px); }
+
+.mp-media { position: relative; width: 100%; padding-top: 52%; background: #050505; overflow: hidden; }
+.mp-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.mp-tag { position: absolute; bottom: 20px; left: 20px; display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; background: rgba(0,0,0,0.75); font-family: var(--font-mono); text-transform: uppercase; font-size: 0.68rem; letter-spacing: 0.1em; color: #fff; pointer-events: none; }
+.mp-tag-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+@media (max-width: 620px) {
+    .mp-media { padding-top: 75%; }
+}
+`;

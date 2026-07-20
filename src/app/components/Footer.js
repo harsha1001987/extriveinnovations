@@ -64,7 +64,7 @@ export default function Footer() {
             </div>
 
             <style dangerouslySetInnerHTML={{ __html: `
-                .bxfoot { background: var(--bg-void); border-top: 2px solid var(--border); }
+                .bxfoot { background: var(--bg-void); }
                 .bxfoot-inner {
                     max-width: 1400px; margin: 0 auto; padding: clamp(56px, 8vw, 96px) clamp(16px, 4vw, 48px) clamp(40px, 5vw, 64px);
                     display: grid; grid-template-columns: 1.2fr 2fr; gap: clamp(40px, 6vw, 80px);

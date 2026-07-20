@@ -16,7 +16,7 @@ export async function POST(request) {
         const { name, company, role, email, facilityType, message } = await request.json();
 
         /* ── Validate required fields ── */
-        if (!name || !company || !email || !facilityType) {
+        if (!name || !email || !facilityType) {
             return NextResponse.json(
                 { error: 'Please fill in all required fields.' },
                 { status: 400 }

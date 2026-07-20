@@ -5,6 +5,7 @@ import OverheadTicker from "./OverheadTicker";
 import Hero from "./Hero";
 import ProblemSection from "./ProblemSection";
 import AboutSection from "./AboutSection";
+import ManipurPilotSection from "./ManipurPilotSection";
 import ProductsSection from "./ProductsSection";
 import TractionSection from "./TractionSection";
 import ContactSection from "./ContactSection";
@@ -18,6 +19,7 @@ export default function Landing() {
       <Hero />
       <ProblemSection />
       <AboutSection />
+      <ManipurPilotSection />
       <ProductsSection />
       <TractionSection />
       <ContactSection />

@@ -60,14 +60,14 @@ export default function ProductsSection() {
 }
 
 const STYLES = `
-.ps-section { background: var(--bg-void); border-top: 2px solid var(--border); }
+.ps-section { background: var(--bg-void); }
 .ps-inner { max-width: 1400px; margin: 0 auto; padding: clamp(72px, 10vw, 130px) clamp(16px, 4vw, 48px); }
 .ps-head { margin-bottom: clamp(44px, 6vw, 72px); }
 .ps-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-mono); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 24px; }
 .ps-title { font-family: var(--font-display); text-transform: uppercase; font-size: clamp(2.5rem, 8vw, 6rem); line-height: 0.88; letter-spacing: -0.04em; color: var(--text-primary); margin: 0; }
 .ps-accent { color: var(--accent); }
 
-.ps-grid { grid-template-columns: repeat(3, 1fr); border: 2px solid var(--border); }
+.ps-grid { grid-template-columns: repeat(3, 1fr); }
 .ps-card { position: relative; overflow: hidden; min-height: 420px; padding: clamp(28px, 2.6vw, 44px); display: flex; text-decoration: none; }
 .ps-card-num { position: absolute; top: -6px; right: 6px; }
 .ps-card-body { position: relative; z-index: 1; display: flex; flex-direction: column; width: 100%; }

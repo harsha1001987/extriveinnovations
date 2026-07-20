@@ -198,7 +198,7 @@ export default function AboutSection() {
 }
 
 const STYLES = `
-.ab-section { background: var(--bg-void); border-top: 2px solid var(--border); }
+.ab-section { background: var(--bg-void); }
 .ab-inner { max-width: 1200px; margin: 0 auto; padding: clamp(72px, 10vw, 130px) clamp(16px, 4vw, 48px); text-align: center; }
 
 .ab-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-mono); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 24px; }
@@ -232,7 +232,7 @@ const STYLES = `
 .ab-phase-text { font-family: var(--font-body); font-size: 1rem; line-height: 1.6; color: var(--text-primary); max-width: 460px; margin: 28px auto 0; }
 
 /* Industry grid */
-.ab-ind-grid { grid-template-columns: repeat(4, 1fr); border: 2px solid var(--border); margin-top: clamp(56px, 8vw, 96px); text-align: left; }
+.ab-ind-grid { grid-template-columns: repeat(4, 1fr); margin-top: clamp(56px, 8vw, 96px); text-align: left; }
 .ab-ind { padding: clamp(24px, 2.4vw, 36px); min-height: 180px; display: flex; flex-direction: column; }
 .ab-ind-name { font-family: var(--font-display); text-transform: uppercase; font-size: clamp(1.1rem, 2vw, 1.5rem); letter-spacing: -0.02em; margin: 0 0 12px; color: inherit; }
 .ab-ind-desc { font-family: var(--font-body); font-size: 0.9rem; line-height: 1.55; color: var(--text-secondary); margin: 0; }

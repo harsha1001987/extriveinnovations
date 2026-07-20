@@ -69,7 +69,7 @@ export default function ContactSection() {
 }
 
 const STYLES = `
-.ct-section { background: var(--bg-void); border-top: 2px solid var(--border); }
+.ct-section { background: var(--bg-void); }
 .ct-inner { max-width: 1400px; margin: 0 auto; padding: clamp(72px, 10vw, 130px) clamp(16px, 4vw, 48px) clamp(40px, 6vw, 72px); }
 
 .ct-head { text-align: center; max-width: 820px; margin: 0 auto clamp(44px, 6vw, 72px); }
@@ -81,7 +81,7 @@ const STYLES = `
 .ct-title-accent { color: var(--accent); }
 .ct-lede { font-family: var(--font-body); font-size: clamp(1.05rem, 1.6vw, 1.3rem); line-height: 1.6; color: var(--text-secondary); max-width: 620px; margin: 0 auto; }
 
-.ct-grid { grid-template-columns: repeat(3, 1fr); border: 2px solid var(--border); }
+.ct-grid { grid-template-columns: repeat(3, 1fr); }
 .ct-card { display: flex; flex-direction: column; padding: clamp(32px, 3.2vw, 48px); text-decoration: none; }
 .ct-card-title { font-family: var(--font-display); text-transform: uppercase; font-size: clamp(1.4rem, 2.4vw, 2rem); line-height: 0.95; letter-spacing: -0.03em; margin: 28px 0 16px; color: inherit; }
 .ct-card-body { font-family: var(--font-body); font-size: 0.95rem; line-height: 1.65; color: var(--text-secondary); margin: 0 0 32px; }

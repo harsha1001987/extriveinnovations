@@ -72,7 +72,7 @@ const SLIDES = [
         status: "WIP · CoE Applied",
         headline: ["Government", "Backed"],
         body: "Supported by iTIC, IIT Hyderabad, Extrive Innovations secured ₹35 lakhs in government-backed funding — ₹10 lakhs under NIDHI Prayas (DST) and ₹25 lakhs under Seed Support (SISF) to accelerate product development and validation.",
-        stat: { value: "₹35L", label: "Gov. Funding" },
+        stat: { value: "₹10L", label: "Gov. Funding" },
         logo: { src: "/textures/IITH.png", alt: "iTIC IIT Hyderabad", treatment: "white" },
         img: "c",
     },
@@ -292,7 +292,7 @@ export default function TractionSection() {
 }
 
 const STYLES = `
-.pr-section { position: relative; width: 100%; background: var(--bg-void); border-top: 2px solid var(--border); }
+.pr-section { position: relative; width: 100%; background: var(--bg-void); }
 
 .pr-stage { position: relative; width: 100%; height: min(94vh, 900px); min-height: 620px; overflow: hidden; background: #050505; }
 
