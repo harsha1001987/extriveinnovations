@@ -36,7 +36,7 @@ export default function Footer() {
             <div className="bxfoot-inner">
                 <div className="bxfoot-brand">
                     <Link href="/" className="bxfoot-word">
-                        Extrive<span>®</span>
+                        Extrive Innovations<span>™</span>
                     </Link>
                     <p className="bxfoot-tag">
                         Wearable robotics &amp; ergonomics intelligence — engineered in India
