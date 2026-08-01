@@ -1,90 +1,111 @@
-import { NextResponse } from 'next/server';
+import { Resend } from "resend";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
+const resendApiKey = process.env.RESEND_API_KEY;
+const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
-export async function POST(request) {
-    try {
-        const apiKey = process.env.RESEND_API_KEY;
-        if (!apiKey) {
-            return NextResponse.json(
-                { error: 'Email service is not configured (missing RESEND_API_KEY).' },
-                { status: 500 }
-            );
-        }
+const contactEmail =
+  process.env.CONTACT_EMAIL || "info@extriveinnovations.com";
 
-        const { name, company, role, email, facilityType, message } = await request.json();
+const makeWebhookUrl = process.env.MAKE_WEBHOOK_URL;
 
-        /* ── Validate required fields ── */
-        if (!name || !email || !facilityType) {
-            return NextResponse.json(
-                { error: 'Please fill in all required fields.' },
-                { status: 400 }
-            );
-        }
+export async function POST(req) {
+  try {
+    const payload = await req.json();
 
-        /* ── Send via Resend REST API ── */
-        const res = await fetch('https://api.resend.com/emails', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${apiKey}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                from: process.env.RESEND_FROM || 'Extrive Website <info@extriveinnovations.com>',
-                to: [process.env.CONTACT_EMAIL || 'info@extriveinnovations.com'],
-                reply_to: email,
-                subject: `Demo Request from ${name} — ${company}`,
-                html: `
-                    <h2 style="font-family:sans-serif;color:#1a1a1a;">New Demo Request</h2>
-                    <table style="border-collapse:collapse;font-family:sans-serif;width:100%;max-width:500px;">
-                        <tr style="border-bottom:1px solid #eee;">
-                            <td style="padding:12px 16px;font-weight:bold;color:#555;">Name</td>
-                            <td style="padding:12px 16px;color:#1a1a1a;">${name}</td>
-                        </tr>
-                        <tr style="border-bottom:1px solid #eee;">
-                            <td style="padding:12px 16px;font-weight:bold;color:#555;">Company</td>
-                            <td style="padding:12px 16px;color:#1a1a1a;">${company}</td>
-                        </tr>
-                        <tr style="border-bottom:1px solid #eee;">
-                            <td style="padding:12px 16px;font-weight:bold;color:#555;">Role</td>
-                            <td style="padding:12px 16px;color:#1a1a1a;">${role || '—'}</td>
-                        </tr>
-                        <tr style="border-bottom:1px solid #eee;">
-                            <td style="padding:12px 16px;font-weight:bold;color:#555;">Email</td>
-                            <td style="padding:12px 16px;color:#1a1a1a;">${email}</td>
-                        </tr>
-                        <tr style="border-bottom:1px solid #eee;">
-                            <td style="padding:12px 16px;font-weight:bold;color:#555;">Facility Type</td>
-                            <td style="padding:12px 16px;color:#1a1a1a;">${facilityType}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:12px 16px;font-weight:bold;color:#555;">Message</td>
-                            <td style="padding:12px 16px;color:#1a1a1a;">${message || '—'}</td>
-                        </tr>
-                    </table>
-                `,
-            }),
+    const {
+      name = "",
+      email = "",
+      role = "",
+      company = "",
+      facilityType = "",
+      message = "",
+    } = payload;
+
+    const html = `
+      <h1>New Demo Request</h1>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Role:</strong> ${role}</p>
+      <p><strong>Company:</strong> ${company}</p>
+      <p><strong>Facility Type:</strong> ${facilityType}</p>
+      <p><strong>Message:</strong></p>
+      <p>${message.replace(/\n/g, "<br />")}</p>
+    `;
+
+    // Send email using Resend
+    if (resend) {
+      await resend.emails.send({
+        from: `noreply@${
+          new URL(
+            process.env.NEXT_PUBLIC_APP_URL || "http://localhost"
+          ).hostname
+        }`,
+        to: contactEmail,
+        subject: `New demo request from ${name || "a user"}`,
+        html,
+      });
+    } else {
+      console.log("[request-demo] Incoming payload:", payload);
+      console.log("RESEND_API_KEY not provided, email not sent.");
+    }
+
+    // Trigger Make Webhook
+    if (makeWebhookUrl) {
+      try {
+        const webhookResponse = await fetch(makeWebhookUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            role,
+            company,
+            facilityType,
+            message,
+            submittedAt: new Date().toISOString(),
+          }),
         });
 
-        /* ── Handle Resend API errors ── */
-        if (!res.ok) {
-            const errorText = await res.text();
-            console.error('Resend API error:', res.status, errorText);
-            return NextResponse.json(
-                { error: 'Failed to send request.', details: errorText },
-                { status: 500 }
-            );
+        if (!webhookResponse.ok) {
+          console.error(
+            "Make webhook responded with:",
+            webhookResponse.status
+          );
         }
-
-        const data = await res.json();
-        return NextResponse.json({ success: true, id: data.id });
-
-    } catch (err) {
-        console.error('Email send error:', err);
-        return NextResponse.json(
-            { error: 'Failed to send request. Please try again later.' },
-            { status: 500 }
-        );
+      } catch (err) {
+        console.error("Error sending data to Make:", err);
+      }
+    } else {
+      console.warn("MAKE_WEBHOOK_URL is not configured.");
     }
+
+    return new Response(
+      JSON.stringify({
+        status: "success",
+      }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  } catch (error) {
+    console.error("[request-demo] POST error:", error);
+
+    return new Response(
+      JSON.stringify({
+        status: "error",
+        message: "Unable to process request.",
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
 }
