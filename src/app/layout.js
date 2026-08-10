@@ -2,6 +2,7 @@ import { Archivo_Black, Archivo, Space_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "./components/ThemeProvider";
 import CustomCursor from "./components/CustomCursor";
+import ChatWidget from "./components/chat/ChatWidget";
 
 // Body copy / descriptions.
 const inter = Inter({
@@ -118,6 +119,8 @@ export default function RootLayout({ children }) {
           {/* Site-wide poster grain — barely-there print texture. */}
           <div className="site-grain" aria-hidden="true" />
           {children}
+          {/* EX/O — floating assistant, site-wide */}
+          <ChatWidget />
         </ThemeProvider>
       </body>
     </html>

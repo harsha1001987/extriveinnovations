@@ -88,6 +88,8 @@ export default function CustomCursor() {
         )
       )
         return "is-hidden";
+      // Regions that opt out entirely and use the native cursor (EX/O widget).
+      if (target.closest('[data-cursor="native"]')) return "is-hidden";
       // Section-aware states (most specific first).
       if (target.closest('[data-cursor="node"]')) return "is-node";
       if (target.closest('[data-cursor="media"], video')) return "is-media";

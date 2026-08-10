@@ -2677,3 +2677,430 @@ button:focus-visible {
     animation: none;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   EX/O CHAT WIDGET
+   Motif: product datasheet. Hard rectangles, hairline seams, mono
+   field labels, zero border-radius. Orange is functional only —
+   live status, computing pulse, focus rule, armed send key, caret.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.exo-mount {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  font-family: var(--font-mono);
+}
+
+/* ── Cursor: the widget opts out of the site-wide custom cursor ──
+   `html.has-custom-cursor body/a/button { cursor: none }` (see the Custom
+   Cursor block above) hides the native pointer everywhere, and the orange
+   dot layer sits at the same z-index as .exo-mount but earlier in the DOM,
+   so it paints *behind* the widget — leaving no visible cursor at all.
+   These selectors lead with html.has-custom-cursor so they outrank it, and
+   CustomCursor itself stands down over [data-cursor="native"]. */
+@media (hover: hover) and (pointer: fine) {
+  html.has-custom-cursor .exo-mount,
+  html.has-custom-cursor .exo-window {
+    cursor: default;
+  }
+
+  html.has-custom-cursor .exo-trigger,
+  html.has-custom-cursor .exo-close,
+  html.has-custom-cursor .exo-chip,
+  html.has-custom-cursor .exo-send:not(:disabled) {
+    cursor: pointer;
+  }
+
+  html.has-custom-cursor .exo-send:disabled {
+    cursor: not-allowed;
+  }
+
+  /* Transcript is selectable copy — and the input takes a real I-beam. */
+  html.has-custom-cursor .exo-msg,
+  html.has-custom-cursor .exo-input,
+  html.has-custom-cursor .exo-input-row {
+    cursor: text;
+  }
+}
+
+/* ── Closed state: stamped identification plate ─────────── */
+.exo-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 44px;
+  padding: 0 16px;
+  background: var(--bg-void);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color 140ms linear, background 140ms linear;
+}
+
+.exo-trigger:hover,
+.exo-trigger.is-open {
+  border-color: var(--accent);
+  background: var(--bg-surface);
+}
+
+.exo-trigger-mark {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.exo-trigger-sub {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--text-secondary);
+  padding-left: 9px;
+  border-left: 1px solid var(--border);
+  line-height: 1;
+}
+
+/* ── Live status dot — square, because nothing here is round ── */
+.exo-dot {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  background: var(--accent);
+  animation: exoPulse 2.4s steps(1, end) infinite;
+}
+
+@keyframes exoPulse {
+  0%, 60% { opacity: 1; }
+  61%, 100% { opacity: 0.25; }
+}
+
+/* ── Window shell ────────────────────────────────────────── */
+.exo-window {
+  width: min(390px, calc(100vw - 40px));
+  height: min(580px, calc(100vh - 130px));
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-void);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  animation: exoBoot 140ms steps(3, end);
+}
+
+@keyframes exoBoot {
+  from { transform: translateY(14px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* ── Datasheet header ────────────────────────────────────── */
+.exo-head {
+  flex-shrink: 0;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.exo-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 7px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+}
+
+.exo-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 140ms linear, border-color 140ms linear;
+}
+
+.exo-close:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+
+/* Ruled spec line — one field, label and value on the same rule. */
+.exo-spec {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 0;
+  padding: 8px 16px;
+  background: var(--bg-void);
+  border-top: 1px solid var(--border);
+}
+
+.exo-spec dt {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+}
+
+.exo-spec dd {
+  margin: 0;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text-primary);
+}
+
+/* ── Transcript ──────────────────────────────────────────── */
+.exo-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 18px 16px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.exo-scroll::-webkit-scrollbar { width: 8px; }
+.exo-scroll::-webkit-scrollbar-track { background: transparent; }
+.exo-scroll::-webkit-scrollbar-thumb { background: var(--bg-muted); }
+
+.exo-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.exo-row--user { align-items: flex-end; }
+
+/* Mono meta line: SOURCE / TIMESTAMP */
+.exo-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+}
+
+.exo-meta-sep { color: var(--bg-muted); }
+
+/* Message body blocks — ruled, never bubbled. */
+.exo-msg {
+  max-width: 92%;
+  font-family: var(--font-body);
+  font-size: 0.855rem;
+  line-height: 1.62;
+}
+
+.exo-msg--exo {
+  padding-left: 11px;
+  border-left: 2px solid var(--border);
+  color: var(--text-primary);
+}
+
+.exo-msg--user {
+  max-width: 85%;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  text-align: left;
+}
+
+.exo-msg p { margin: 0; }
+
+/* Transmit caret — blinks at the end of the latest EX/O line. */
+.exo-caret {
+  display: inline-block;
+  width: 7px;
+  height: 0.9em;
+  margin-left: 4px;
+  vertical-align: -1px;
+  background: var(--accent);
+  animation: exoBlink 1.1s steps(1, end) infinite;
+}
+
+@keyframes exoBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Typing channel — an orange pulse travelling through fixed cells. */
+.exo-cell {
+  width: 7px;
+  height: 12px;
+  background: var(--bg-muted);
+  animation: exoTravel 1.1s steps(1, end) infinite;
+}
+
+@keyframes exoTravel {
+  0%, 30% { background: var(--accent); }
+  31%, 100% { background: var(--bg-muted); }
+}
+
+/* ── Entry chips ─────────────────────────────────────────── */
+.exo-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.exo-chips-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--text-muted);
+}
+
+.exo-chip {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  text-align: left;
+  padding: 7px 10px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 140ms linear, border-color 140ms linear;
+}
+
+.exo-chip:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+
+/* ── Input row ───────────────────────────────────────────── */
+.exo-input-row {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 9px;
+  padding: 10px 10px 10px 12px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+
+.exo-prompt {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  line-height: 34px;
+  transition: color 140ms linear;
+}
+
+.exo-input-row:focus-within .exo-prompt { color: var(--accent); }
+
+.exo-input {
+  flex: 1;
+  min-width: 0;
+  height: 34px;
+  max-height: 104px;
+  resize: none;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  padding: 8px 0;
+  font-family: var(--font-body);
+  font-size: 0.83rem;
+  line-height: 1.4;
+  color: var(--text-primary);
+  caret-color: var(--accent);
+  outline: none;
+  transition: border-color 140ms linear;
+}
+
+.exo-input::placeholder { color: var(--text-muted); }
+.exo-input:focus { border-bottom-color: var(--accent); }
+
+/* Send key — dead until armed, then it throws like a switch. */
+.exo-send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 34px;
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  transition: background 120ms linear, color 120ms linear,
+    border-color 120ms linear, transform 90ms linear;
+}
+
+.exo-send:not(:disabled) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-foreground);
+  cursor: pointer;
+}
+
+.exo-send:not(:disabled):hover { filter: brightness(1.12); }
+.exo-send.is-thrown { transform: translateY(2px); }
+
+/* ── Footer disclaimer ───────────────────────────────────── */
+.exo-foot {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 7px 12px 8px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-void);
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* ── Mobile: the panel takes the screen ──────────────────── */
+@media (max-width: 640px) {
+  .exo-mount {
+    right: 14px;
+    bottom: 14px;
+  }
+
+  .exo-window {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    border: none;
+  }
+
+  /* The full-screen panel carries its own close control. */
+  .exo-trigger.is-open { display: none; }
+
+  .exo-msg { max-width: 100%; }
+  .exo-msg--user { max-width: 92%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exo-window { animation: none; }
+  .exo-dot,
+  .exo-caret,
+  .exo-cell { animation: none; }
+  .exo-cell:nth-child(-n + 3) { background: var(--accent); }
+  .exo-send.is-thrown { transform: none; }
+}
